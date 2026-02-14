@@ -1,0 +1,1002 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project Resurge | Bengaluru Lake Resilience Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; scroll-behavior: smooth; }
+        .gradient-bg { background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%); }
+        .feature-card { transition: transform 0.3s ease; }
+        .feature-card:hover { transform: translateY(-5px); }
+        /* Geometric Vector Placeholder Style */
+        .vector-box { 
+            background: #1e293b;
+            background-image: linear-gradient(30deg, #334155 12%, transparent 12.5%, transparent 87%, #334155 87.5%, #334155), 
+                              linear-gradient(150deg, #334155 12%, transparent 12.5%, transparent 87%, #334155 87.5%, #334155), 
+                              linear-gradient(30deg, #334155 12%, transparent 12.5%, transparent 87%, #334155 87.5%, #334155), 
+                              linear-gradient(150deg, #334155 12%, transparent 12.5%, transparent 87%, #334155 87.5%, #334155), 
+                              linear-gradient(60deg, #475569 25%, transparent 25.5%, transparent 75%, #475569 75%, #475569), 
+                              linear-gradient(60deg, #475569 25%, transparent 25.5%, transparent 75%, #475569 75%, #475569);
+            background-size: 80px 140px;
+        }
+    </style>
+
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+</head>
+<body class="bg-slate-50 text-slate-900">
+
+    <nav class="fixed left-0 top-0 h-screen w-64 bg-slate-900 text-white p-6 hidden lg:block border-r border-slate-800">
+        <div class="mb-10">
+            <h1 class="text-2xl font-bold tracking-tight text-blue-400">PROJECT RESURGE</h1>
+            <p class="text-xs text-slate-400 mt-1 uppercase tracking-widest">BBMP Pilot Proposal 2025</p>
+        </div>
+        <ul class="space-y-4 text-sm font-medium">
+            <li><a href="#overview" class="hover:text-blue-400 transition">01. Abstract</a></li>
+            <li><a href="#analysis" class="hover:text-blue-400 transition">02. Executive Summary</a></li>
+            <li><a href="#methodology" class="hover:text-blue-400 transition">03. Methodology</a></li>
+            <li><a href="#findings" class="hover:text-blue-400 transition">04. Findings</a></li>
+            <li><a href="#innovation" class="hover:text-blue-400 transition">05. The Innovation</a></li>
+            <li><a href="#implementation" class="hover:text-blue-400 transition">06. Implementation</a></li>
+            <li><a href="#impact" class="hover:text-blue-400 transition">07. Impact & Sustainability</a></li>
+            <li><a href="#risk" class="hover:text-blue-400 transition">08. Risk Assessment</a></li>
+        </ul>
+        <div class="absolute bottom-10 left-6">
+            <div class="text-[10px] text-slate-500 uppercase font-bold tracking-tighter">Powered By</div>
+            <div class="text-xs font-semibold">Google Earth Engine</div>
+        </div>
+    </nav>
+
+    <main class="lg:ml-64 p-8 lg:p-16 max-w-5xl">
+        
+        <header id="overview" class="mb-20">
+            <span class="bg-blue-100 text-blue-700 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wide">Social Innovation Challenge 2025</span>
+            <h2 class="text-5xl font-extrabold mt-6 mb-4 text-slate-900 leading-tight">When We Fail Lakes: Rebuilding Bengaluru’s First Line of Flood Defence</h2>
+            <p class="text-xl text-slate-600 leading-relaxed max-w-3xl">
+                Reframing urban flooding as a failure of lake storage systems rather than merely a drainage or rainfall problem. 
+            </p>
+            <div class="mt-8 flex gap-4 text-sm text-slate-500">
+                <span><strong>Team:</strong> Shashank V., Sakshi N., Akshit V.</span>
+                <span>•</span>
+                <span><strong>Model:</strong> Bayesian-Gradient Boosting</span>
+            </div>
+        </header>
+
+        <hr class="border-slate-200 mb-20">
+
+        <section id="overview" class="mb-20">
+            <div class="mt-12 text-slate-900 leading-relaxed text-base text-justify">
+                <h2 class="bg-slate-900 p-8 text-white text-2xl font-bold uppercase tracking-widest border-l-4 border-blue-600 pl-4">01. Abstract
+                </h2>
+            </div>
+            
+            <div class="space-y-8 text-slate-700 leading-relaxed text-base text-justify">
+                <div class="bg-white p-8 border border-slate-200 shadow-sm">
+
+                </div>
+            </div>
+
+        </section>
+
+        <section id="analysis" class="mb-20">
+            <div class="mt-12 text-slate-900 leading-relaxed text-base text-justify">
+                <h2 class="bg-slate-900 p-8 text-white text-2xl font-bold uppercase tracking-widest border-l-4 border-blue-600 pl-4">02. Executive Summary
+                </h2>
+            </div>
+            
+            <div class="space-y-8 text-slate-700 leading-relaxed text-base text-justify">
+                <div class="bg-white p-8 border border-slate-200 shadow-sm">
+                    <p class="mb-4">
+                        <strong>Bengaluru flood crisis</strong> gets blamed on <strong>cloudbursts</strong> and <strong>extreme rain events</strong>. The real tragedy, however, is that we have been treating our <strong>lakes</strong> like <strong>isolated heritage parks</strong> or <strong>selfie spots</strong> and not like the <strong>connected drainage network</strong> engineered by Bengaluru's <strong>natural geography</strong>. 
+                    </p>
+                    <p class="mb-4">
+                        To make matters worse, we are always <strong>reactive</strong> –– waiting for water to flood our streets and then taking to Instagram to post memes like: <strong>“Hello, how are you? I’m under water.”</strong> History often repeats, and what was once a <strong>Lake City</strong> morphs into <strong>Venice of potholes</strong> come the monsoons. And of course, <strong>politics promises</strong> and <strong>BBMP de-silts</strong> once every five years, courtesy the <strong>election season</strong>, and yet, we swim to navigate the city, as if it's a <strong>mandatory fitness exercise</strong>.
+                    </p>
+                    
+                    <div class="grid md:grid-cols-2 gap-8">
+                    <div class="space-y-4">
+                        <p>
+                            To overcome this complex challenge, we have built a <strong>hybrid satellite diagnostic dashboard</strong> employing tools like <strong>Google Earth Engine (GEE)</strong>, <strong>USGS topography</strong>, <strong>Copernicus Sentinel 2</strong>, and <strong>Merit hydrography</strong> datasets to name a few. 
+                        </p>
+                        <p>
+                            We did not just look at <strong>water pixels</strong> from satellite but measured the prominent <strong>physical properties of the basin</strong> like the <strong>lake surface area capacity</strong>, <strong>surrounding imperviousness</strong>, <strong>encroachment by invasive weeds</strong>, <strong>rainfall intensity</strong>, <strong>slope-elevation</strong>, and <strong>urban stress indices</strong>. 
+                        </p>
+                        <p>
+                            We then fused <strong>GradientBoosting</strong> with <strong>Bayesian Regression</strong> to create a model that doesn't just predict but gives a <strong>100% safety coverage interval</strong> –– all lakes in the sample were within the predicted <strong>safety margins</strong>. Our model identifies <strong>vulnerable areas</strong> with <strong>3.74% Mean Absolute Error (MAE)</strong> –– tight enough for a <strong>BBMP officer</strong> to not miss the target.
+                        </p>
+                    </div>
+
+                    <div class="gradient-bg p-6 text-white shadow-lg mb-8">
+                        <h3 class="font-bold mb-6 uppercase text-sm tracking-widest text-blue-400">Key Performance Metrics</h3>
+                        <ul class="space-y-6">
+                            <li class="flex items-start">
+                                <div class="mr-3 mt-1 bg-blue-500/20 p-1">
+                                    <svg class="w-4 h-4 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                                </div>
+                                <div>
+                                    <span class="block font-bold mb-1">R² of 0.64</span>
+                                    <span class="text-sm text-slate-300">We can explain <strong>~ 65%</strong> of why our neighborhood floods just using <strong>land cover</strong> and <strong>topography data</strong> based on <strong>GEE data sets</strong>.</span>
+                                </div>
+                            </li>
+                            <li class="flex items-start">
+                                <div class="mr-3 mt-1 bg-blue-500/20 p-1">
+                                    <svg class="w-4 h-4 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                                </div>
+                                <div>
+                                    <span class="block font-bold mb-1">100% Prediction Interval</span>
+                                    <span class="text-sm text-slate-300">The model ensures that we don't miss the <strong>actual floods</strong> since all lakes fall within our <strong>safety margins</strong>.</span>
+                                </div>
+                            </li>
+                            <li class="flex items-start">
+                                <div class="mr-3 mt-1 bg-blue-500/20 p-1">
+                                    <svg class="w-4 h-4 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                                </div>
+                                <div>
+                                    <span class="block font-bold mb-1">MAE of 3.74%</span>
+                                    <span class="text-sm text-slate-300">Very small error, hence a <strong>BBMP municipal officer</strong> can confidently approve <strong>de-silting budget</strong> without fearing consequences.</span>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div >
+                    <p class="mb-4 mt-4">
+                        Additionally, we are working on a <strong>dashboard</strong> that can turn this <strong>geeky satellite data</strong> into <strong>simple and effective communication tool</strong> so that stakeholders can finally go from <strong>disaster response</strong> to <strong>predictive maintenance</strong>. 
+                    </p>
+                    <p class="font-semibold text-slate-900">
+                        Therefore, our model proves that Bengaluru's floods are <strong>predictable consequences</strong> of <strong>bad urban design</strong> suffering from <strong>predatory encroachment</strong>, supplemented by <strong>administrative neglect</strong>. Hence, by placing <strong>actionable satellite intelligence</strong> into stakeholders’ hands, we aim to achieve <strong>flood resilience in Bengaluru</strong>.
+                    </p>
+                </div>
+
+                </div>
+
+                
+            </div>
+        </section>
+
+       <section id="methodology">
+            <div class="mt-12 text-slate-900 leading-relaxed text-base text-justify">
+                <h2 class="bg-slate-900 p-8 text-white text-2xl font-bold uppercase tracking-widest border-l-4 border-blue-600 pl-4">03. Methodology</h2>
+
+                    <div class="bg-white p-8 space-y-12 border border-slate-200 shadow-sm">
+                        
+                        <section class="group">
+                            <div class="flex items-center space-x-4 mb-4">
+                                <span class="text-blue-600 font-black text-xl">01</span>
+                                <h4 class="font-bold uppercase tracking-wide text-slate-900">Lake Identification & Spatial Filtering</h4>
+                            </div>
+                            <div class="ml-10 space-y-3 border-l-2 border-blue-600 pl-6">
+                                <ul class="list-decimal ml-6 space-y-3 mb-5">
+                                    <li>We first had to identify <strong>lakes within Bengaluru</strong>, for which we used <strong>Open Street Map (OSM)</strong> data via the <strong>osmnx library</strong> to extract lakes and their boundary coordinates as <strong>polygons</strong>.</li>
+                                    <li>We then <strong>filtered out smaller lakes</strong> using a threshold <strong>>0.5 ha</strong> to focus on lakes with <strong>considerable hydrological impact</strong> on the city.</li>
+                                </ul>
+                                    <div class="w-full bg-slate-900 border-y border-slate-800 flex justify-center items-center mt-10">
+                                            <div class="text-blue-400 font-serif italic text-xl tracking-wide">
+                                                $$ \text{Area}_{\text{Lake}} > 0.5 \text{ ha} $$
+                                    </span>
+                                </div>
+                            </div>
+                        </section>
+
+                        <section class="group">
+                            <div class="flex items-center space-x-4 mb-4">
+                                <span class="text-blue-600 font-black text-xl">02</span>
+                                <h4 class="font-bold uppercase tracking-wide text-slate-900">Rainfall Intensity & Saturation Modeling</h4>
+                            </div>
+                            <div class="ml-10 space-y-3 border-l-2 border-blue-600 pl-6">
+                                <ul class="list-decimal ml-6 space-y-3 mb-5">
+                                    <li>We followed a <strong>multi-year analysis</strong> to evaluate how <strong>rainfall intensity</strong> and <strong>urban concrete density (Imperviousness)</strong> interact at lake level and its impact on floods.</li>
+                                    <li>For each layer, we created a <strong>200-meter circular buffer</strong> to capture the <strong>immediate inflow zone</strong> where <strong>impervious surfaces</strong> have the most direct impact on <strong>runoff surge</strong> into lake basin.</li>
+                                    <li>We use <strong>NASA GPM (Global Precipitation Measurement) IMERG V07</strong> dataset (0.1° resolution) to extract <strong>flood triggers</strong> instead of total annual rainfall.</li>
+                                    <li>We integrated <strong>30-minute precipitation rates</strong> into <strong>24-hour totals</strong> (peak_30min_intensity_mm).</p>
+                                    <li>To account for <strong>soil saturation (antecedent moisture)</strong> we calculated <strong>sum of rainfall over 3 consecutive days</strong>, and then <strong>annual maxima</strong> of this value was extracted as the <strong>primary indicator for flood events</strong>.</li>
+                                    <li>The <strong>max 30-minute rate</strong> (max_3day_rain_mm) recorded in a year was extracted to account for <strong>cloudburst events</strong>, which can trigger <strong>urban flash floods</strong>.</li>
+                                </ul>
+                                <div class="w-full bg-slate-900 border-y border-slate-800 flex justify-center items-center mt-10">
+                                    <div class="text-blue-400 font-serif italic text-xl tracking-wide">
+                                        $$ \text{Saturation} = \sum_{d=1}^{3} \text{Rainfall}_d $$
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+
+                        <section class="group">
+                            <div class="flex items-center space-x-4 mb-4">
+                                <span class="text-blue-600 font-black text-xl">03</span>
+                                <h4 class="font-bold uppercase tracking-wide text-slate-900">Urban Stress (Imperviousness)</h4>
+                            </div>
+                            <div class="ml-10 space-y-3 border-l-2 border-blue-600 pl-6">
+                                    <ul class="list-decimal ml-6 space-y-3 mb-5">
+                                        <li>
+                                            <strong>Urbanization Quantification:</strong> We quantified the degree of urbanization surrounding each lake using the <strong>Google Earth Engine (GEE) Dynamic World (V1)</strong> dataset.
+                                        </li>
+                                        <li>
+                                            <strong>Deep Learning Classification:</strong> This dataset identifies land cover types by applying <strong>deep learning</strong> models to <strong>Sentinel-2 imagery</strong>.
+                                        </li>
+                                        <li>
+                                            <strong>Impervious Isolation:</strong> We isolated the <strong>built label (Index-6)</strong> and classified these specific pixels as <strong>impervious (impervious_fraction)</strong>.
+                                        </li>
+                                        <li>
+                                            <strong>Buffer Mean Extraction:</strong> We extracted the <strong>mean of this mask</strong> within a <strong>200-meter buffer</strong> to estimate the percentage of land preventing natural seepage and <strong>accelerating runoff</strong>.
+                                        </li>
+                                    </ul>
+                                <div class="w-full bg-slate-900 border-y border-slate-800 flex justify-center items-center mt-10">
+                                    <div class="text-blue-400 font-serif italic text-xl tracking-wide ">
+                                        $$ I_{\text{fraction}} = \frac{\sum \text{Pixels}_{\text{built}}}{\sum \text{Pixels}_{\text{total}}} $$
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+
+                        <section class="group">
+                            <div class="flex items-center space-x-4 mb-4">
+                                <span class="text-blue-600 font-black text-xl">04</span>
+                                <h4 class="font-bold uppercase tracking-wide text-slate-900">Hydrological Flow & Drainage Network</h4>
+                            </div>
+                            <div class="ml-10 space-y-3 border-l-2 border-blue-600 pl-6">
+                                <ul class="list-decimal ml-6 space-y-3 mb-5">
+                                    <li>We also need to quantify the <strong>upstream catchment area</strong> that drains into a lake to accurately model the risk. Hence, we use <strong>MERIT Hydro dataset</strong> (Multi Error Removed Improved Terrain) which has a resolution of <strong>~90 meters</strong> at equator.</li>
+                                    <li>We define <strong>upstream accumulation area</strong> as the <strong>total surface area in $km^2$</strong> that drains into a specific 90-meter pixel (<strong>flow_accumulation</strong>).</li>
+                                    <li>But since these <strong>accumulation values</strong> can have a large range, we make use of <strong>log-10</strong>, thus mapping both <strong>major drains</strong> and <strong>smaller gullies</strong>.</li>
+                                    <li>We also identify <strong>flow direction</strong> by assigning a code (1,2,4,8,16,32,64,128), each representing a <strong>compass direction (flow_direction)</strong>.</li>
+                                    <li>This data was calculated for each lake by using their <strong>centroids</strong> and drawing a <strong>200-meter buffer</strong> around it.</li>
+                                </ul>
+                                <div class="w-full bg-slate-900 border-y border-slate-800 flex justify-center items-center mt-10">
+                                    <div class="text-blue-400 font-serif italic text-xl tracking-wide">
+                                        $$ \text{Normalized Flow} = \log_{10}(\text{Flow}_{\text{acc}}) $$
+                                    </span>
+                                </div>
+                            </div>
+                        </section>
+
+                        <section class="group">
+                            <div class="flex items-center space-x-4 mb-4">
+                                <span class="text-blue-600 font-black text-xl">05</span>
+                                <h4 class="font-bold uppercase tracking-wide text-slate-900">Topographic Slope and Elevation</h4>
+                            </div>
+                            <div class="ml-10 border-l-2 border-blue-600 pl-6">
+                                <ul class="list-decimal ml-6">
+                                    <li>Here, we use <strong>NASA SRTM (Shuttle Radar Topography Machine) GL1</strong> data set (~ resolution <strong>30 meters</strong>), which is the global standard for <strong>topographic analysis</strong>.</li>
+                                    <li>Also, unlike other analysis where we use circular buffers around lakes, this <strong>data extraction</strong> uses <strong>exact lake boundaries</strong> to ensure <strong>data accuracy</strong>.</li>
+                                    <li>We made use of two <strong>topographic parameters</strong> to characterize our lake basins:</li>
+                                </ul>
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 my-10">
+                                    <div class="p-6 bg-slate-50 border border-slate-200 shadow-sm">
+                                        <h5 class="font-bold text-sm uppercase text-blue-600 mb-3 tracking-widest">a. Elevation</h5>
+                                        <p class="text-sm text-slate-700 mb-3">
+                                            We extracted this directly from the <strong>SRTM Elevation Band</strong>:
+                                        </p>
+                                        <ul class="list-disc ml-5 space-y-2 text-sm text-slate-600">
+                                            <li>Used to estimate the <strong>lake's position</strong> (valley, plateau, or sea level) within Bengaluru's <strong>integrated drainage network</strong>.</li>
+                                            <li>Lakes at <strong>lower elevations</strong> act as <strong>sinks</strong> for urban runoff, directly increasing <strong>flood frequency</strong>.</li>
+                                        </ul>
+                                    </div>
+
+                                    <div class="p-6 bg-slate-50 border border-slate-200 shadow-sm">
+                                        <h5 class="font-bold text-sm uppercase text-blue-600 mb-3 tracking-widest">b. Slope</h5>
+                                        <p class="text-sm text-slate-700 mb-3">
+                                            We calculated the <strong>max rate of change</strong> in elevation between pixels:
+                                        </p>
+                                        <ul class="list-disc ml-5 space-y-2 text-sm text-slate-600">
+                                            <li><strong>Steeper slopes</strong> accelerate <strong>water flow velocity</strong>, heightening <strong>flash flood</strong> risks during <strong>cloudburst events</strong>.</li>
+                                            <li>Applied <strong>Reduce Regions</strong> function to localize and extract <strong>mean slope and elevation</strong> at the lake level.</li>
+                                        </ul>
+                                    </div>
+                                </div>
+
+                            <div class="w-full bg-slate-900 border-y border-slate-800 flex justify-center items-center">
+                                    <div class="text-blue-400 font-serif italic text-xl tracking-wide">
+                                        $$ \text{Slope} = \max\left(\frac{\Delta \text{Elevation}}{\Delta \text{Distance}}\right) $$
+                                    </span>
+                                </div>
+                            </div>
+                        </section>
+
+
+                        <section class="group">
+                            <div class="flex items-center space-x-4 mb-4">
+                                <span class="text-blue-600 font-black text-xl">06</span>
+                                <h4 class="font-bold uppercase tracking-wide text-slate-900 text-l">SAR-Based Flood Frequency Analysis</h4>
+                            </div>
+
+                            <div class="ml-10 border-l-2 border-blue-600 pl-6">
+                                <h5 class="font-bold text-m text-blue-600 mb-3 tracking-widest">1. SAR Methodology & Data Acquisition</h5>
+                                <ul class="list-disc ml-6 space-y-2 text-base text-slate-700 mb-6">
+                                    <li>We make use of <strong>SAR (Synthetic Aperture Radar)</strong> instead of optical sensors since it is <strong>cloud penetrating</strong>, allowing monitoring during <strong>monsoons</strong>.</li>
+                                    <li>We used the <strong>Sentinel-1 Ground Range Detected (GRD)</strong> collection, operating in the <strong>C-band</strong> for high-resolution <strong>radar backscatter</strong>.</li>
+                                    <li><strong>Vertical-Horizon (VH) Polarization</strong> was selected to distinguish between <strong>smooth water surfaces</strong> and rough terrestrial terrain.</li>
+                                    <li>The model operates over a <strong>five-year period (Jan 2020 – Dec 2025)</strong> to capture <strong>climatic variations</strong> and <strong>urban changes</strong>.</li>
+                                    <li>The <strong>Region of Interest (RoI)</strong> was defined by a <strong>200-meter buffer</strong> around lake centroids.</li>
+                                </ul>
+
+                                <h5 class="font-bold text-m text-blue-600 mb-3 tracking-widest">2. Inundation Detection & Baseline</h5>
+                                <ul class="list-disc ml-6 space-y-2 text-base text-slate-700 mb-6">
+                                    <li>Water acts as a smooth reflector, resulting in <strong>low backscatter returns</strong>.</li>
+                                    <li>A fixed threshold of <strong>-20 dB</strong> was used; pixels lower than this were classified as <strong>water (All Water Mask)</strong>.</li>
+                                    <li>To isolate <strong>temporary floods</strong> from <strong>permanent water</strong>, we filtered observations for <strong>dry months (Jan–Mar)</strong>.</li>
+                                    <li>Areas identified as water in <strong>≥ 70%</strong> of dry season observations were classified as permanent.</li>
+                                </ul>
+
+                                <div class="w-full bg-slate-900 border-y border-slate-800 flex justify-center items-center py-3 my-6">
+                                    <div class="text-blue-400 font-serif italic text-lg tracking-wide">
+                                        $$ \text{Flood Pixels} = (\text{All Water Mask}) \cap \neg(\text{Baseline Mask}) $$
+                                    </div>
+                                </div>
+
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 my-10">
+                                    <div class="p-6 bg-slate-50 border border-slate-200 shadow-sm">
+                                        <h5 class="font-bold text-sm uppercase text-blue-600 mb-3 tracking-widest">3. Quantifying Frequency</h5>
+                                        <ul class="list-disc ml-5 space-y-2 text-sm text-slate-600">
+                                            <li>Individual <strong>flood masks</strong> were aggregated to represent <strong>probability of flooding</strong> for every <strong>10-meter pixel</strong>.</li>
+                                            <li>Calculated as the ratio of <strong>flood events</strong> to total <strong>satellite observations</strong>.</li>
+                                        </ul>
+                                    </div>
+                                    <div class="p-6 bg-slate-50 border border-slate-200 shadow-sm">
+                                        <h5 class="font-bold text-sm uppercase text-blue-600 mb-3 tracking-widest">4. Lake-wise Extraction</h5>
+                                        <ul class="list-disc ml-5 space-y-2 text-sm text-slate-600">
+                                            <li>Data was aggregated to <strong>lake levels</strong> to make it actionable for <strong>BBMP officers</strong>.</li>
+                                            <li>The <strong>mean flood frequency</strong> was extracted within the <strong>200-meter buffer</strong> as the target variable for <strong>machine learning models</strong>.</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+
+
+                        <section class="group mb-12">
+                            <div class="flex items-center space-x-4 mb-6">
+                                <span class="text-blue-600 font-black text-xl">07</span>
+                                <h4 class="font-bold uppercase tracking-widest text-slate-900 text-l">Data Fusion & Predictive Modeling</h4>
+                            </div>
+
+                            <div class="ml-10 border-l-2 border-blue-600 pl-6">
+                                
+                                <div>
+                                <h5 class="font-bold text-m text-blue-600 mb-3 tracking-widest">1. Transformation & Digital ID Creation</h5>
+                                    <p class="text-base text-slate-700 mb-4">
+                                        We transform raw geospatial data into <strong>clean metrics</strong> to create a <strong>digital ID for each lake</strong>, forming the foundation for our <strong>Machine Learning (ML) model</strong>. The fused datasets include:
+                                    </p>
+                                    <ul class="list-disc ml-6 space-y-2 text-base text-slate-700">
+                                        <li><strong>Meteorology:</strong> Rainfall data.</li>
+                                        <li><strong>Biological Health:</strong> Water/weed ratios and <strong>surface aerial capacity</strong>.</li>
+                                        <li><strong>Topography:</strong> Mean <strong>elevation and slope</strong>.</li>
+                                        <li><strong>Hydrology:</strong> <strong>Hydrological flow</strong> and <strong>urban imperviousness</strong>.</li>
+                                        <li><strong>Target Variable:</strong> <strong>SAR-derived flood frequency</strong>.</li>
+                                    </ul>
+                                </div>
+
+                                <div>
+                                <h5 class="font-bold text-m text-blue-600 mt-5 mb-3 tracking-widest">2. Engineered Physical Indices</h5>
+                                    <p class="text-base text-slate-700 mb-4">Indices were engineered to improve the precision of estimating the <strong>physical reality of lakes</strong>:</p>
+                                    
+                                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
+                                        <div class="p-6 bg-slate-50 border border-slate-200 shadow-sm">
+                                            <h5 class="font-bold text-sm uppercase text-blue-600 mb-4 tracking-widest">Catchment to Surface Area Ratio (CSR)</h5>
+                                            <p class="text-sm text-slate-700 mb-4">Identifies lakes <strong>overwhelmed by their drainage network</strong> compared to their size.</p>
+                                            <div class="bg-slate-900 p-4 border border-slate-200 font-serif italic text-sm text-center text-blue-400">
+                                                $$ \text{CSR} = \frac{\text{Flow Accumulation Area (km}^2)}{\text{Potential Lake Area (ha)}} $$
+                                            </div>
+                                        </div>
+                                        <div class="p-6 bg-slate-50 border border-slate-200 shadow-sm">
+                                            <h5 class="font-bold text-sm uppercase text-blue-600 mb-4 tracking-widest">Urban Stress & Bio-Clogging</h5>
+                                            <ul class="list-disc ml-4 space-y-4 text-sm text-slate-700">
+                                                <li><strong>Urban Stress:</strong> Product of <strong>impervious fraction</strong> and <strong>flow accumulation</strong> to estimate surface water retention due to <strong>concrete cover</strong>.</li>
+                                                <li><strong>Biological Clogging:</strong> Area occupied by <strong>weeds</strong> relative to surface area, identifying lakes where choking is highest.</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div>
+                                <h5 class="font-bold text-m text-blue-600 mt-5 mb-3 tracking-widest">3. Predictive Modeling (GBR)</h5>
+                                    <ul class="list-decimal ml-6 space-y-4 text-base text-slate-700">
+                                        <li>We utilized a <strong>Gradient Boosting Regressor (GBR)</strong>, ideal for capturing <strong>non-linear relationships</strong> and feature interactions by sequentially correcting errors.</li>
+                                        <li>We configured the model with <strong>300 estimators</strong>, a <strong>learning rate of 0.05</strong>, and a <strong>max depth of 4</strong> to prevent overfitting.</li>
+                                        <li>Input features were categorized into <strong>Meteorological</strong> (Max 3-day rain), <strong>Urbanization</strong> (Imperviousness), and <strong>Bio-physical</strong> factors (CSR, Slope, Clogging).</li>
+                                    </ul>
+                                </div>
+
+                                <div class="w-full bg-slate-900 border-y-2 border-slate-800 flex flex-col justify-center items-center py-8 my-10 text-center">
+                                    <h5 class="text-blue-400 font-bold uppercase text-base tracking-widest mb-4">Training & Validation</h5>
+                                    <div class="text-white font-serif text-base px-6">
+                                        <strong>75:25 Split</strong> — Evaluated via <strong>R-squared (R^2)</strong> and <strong>Mean Absolute Error (MAE)</strong> with <strong>Cross-Validation</strong> for reproducibility.
+                                    </div>
+                                </div>
+
+                                <div>
+                                <h5 class="font-bold text-m text-blue-600 mt-5 mb-3 tracking-widest">4. Vulnerability Ranking & Stakeholder Action</h5>
+                                    <ul class="list-decimal ml-6 space-y-4 text-base text-slate-700">
+                                        <li>We then ranked variables to identify and communicate to <strong>decision makers</strong> which factors most influence <strong>urban floods</strong>.</li>
+                                        <li>Further, we generated an <strong>action plan</strong> by identifying the <strong>top 15 most vulnerable lakes</strong>.</li>
+                                        <li>Finally, we compared <strong>predicted vs. actual flood frequency</strong> to provide <strong>actionable intelligence</strong> for preventive measures.</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </section>
+
+                        
+
+
+
+                    </div>
+                </div>
+            </div>
+        </section> 
+
+
+
+        <hr class="border-slate-200 mb-20">
+
+        <section id="findings" class="mb-20">
+            <div class="mt-12 text-slate-900 leading-relaxed text-base text-justify">
+                <h2 class="bg-slate-900 p-8 text-white text-2xl font-bold uppercase tracking-widest border-l-4 border-blue-600 pl-4">
+                    04. Findings
+                </h2>
+                    <div class="bg-white p-8 space-y-12 border border-slate-200 shadow-sm">
+                        
+                       
+                        <div class="space-y-4 text-slate-700 leading-relaxed text-base text-justify mb-10">
+                            <div class="flex items-center space-x-4 mb-6">
+                                <span class="text-blue-600 font-black text-xl">3.1</span>
+                                <h3 class="font-bold uppercase tracking-widest text-slate-900 text-l"">The Hydrological Drought</h3>
+                            </div>
+                            <div class="ml-10 space-y-5 border-l-2 border-blue-600 pl-6">
+                                <div>
+                                    <p class="mb-6">
+                                    While on paper, the city's <strong>water coverage</strong> may appear to increase from <strong>36.4% in 2020 to 45.7% in 2025</strong>, this is very <strong>shallow</strong> and not surprising considering the rare <strong>“triple-dip” La-Nina episodes</strong> that marked the 2020-2023 period, followed by a <strong>neutral El-Nino in 2024</strong> and a <strong>La-Nina again in 2025</strong>. 
+                                    </p>
+                                    <p class="mt-4">
+                                        This prolonged cooling of the <strong>central and eastern Pacific Ocean</strong> significantly altered the <strong>regional weather patterns in India</strong>, contributing to <strong>higher-than-normal monsoon rainfalls</strong>. This can be corroborated with evidence gathered from <strong>Landsat and Sentinel satellites</strong> as shown in Figure 1.
+                                    </p>
+                                    <p class="mt-4">
+                                        Almost <strong>20% of Bengaluru's large lakes</strong> (&gt;1ha area) are <strong>dry</strong> with water occupying <strong>less than 10%</strong> of the lake’s area. We see a <strong>strong correlation (0.94)</strong> between a lake’s <strong>aerial extent</strong> and its <strong>weed cover</strong>. While this correlation is <strong>relatively weak (0.68)</strong> with its <strong>water cover</strong> as shown in <strong>Figure 2</strong>. Therefore, as the lake’s size increases, <strong>encroachment by weeds</strong> increases almost proportionately, effectively <strong>nullifying</strong> the lake’s <strong>ecological role as a reservoir</strong>.
+                                    </p>
+                                </div>
+                            
+                            
+                                <div class="vector-box rounded-none h-64 flex items-center justify-center border border-slate-200 mt-5">
+                                    <div class="text-white text-center p-6">
+                                        <div class="text-3xl font-black mb-2 opacity-80 uppercase tracking-tighter italic">Figure 1: Satellite Temporal Analysis</div>
+                                        <p class="text-xs uppercase tracking-widest font-bold">Geometric Vector Representation: La-Nina Rainfall Correlation</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        
+                        <div class="space-y-4 text-slate-700 leading-relaxed text-base text-justify mb-10">
+                            <div class="flex items-center space-x-4 mb-6">
+                                <span class="text-blue-600 font-black text-xl">3.2</span>
+                                <h3 class="font-bold uppercase tracking-widest text-slate-900 text-l"">Biological Choking & Invasive Dominance</h3>
+                            </div>
+                            <div class="ml-10 space-y-5 border-l-2 border-blue-600 pl-6">
+                   
+                                <div>
+                                    <p class="mb-6">
+                                        The most severe threat to Bengaluru's lakes is not just the lack of water, but <strong>Biological Choking</strong>. The average lake in the city is <strong>over 53% covered by weeds</strong>. Furthermore, <strong>52 out of 162 lakes</strong> are classified as <strong>"Severely Choked"</strong> with <strong>greater than 75% weed cover</strong>. 
+                                    </p>
+                                    <p>
+                                        Specific <strong>Dead Zones</strong> have emerged where major water bodies, including <strong>Chikka Beguru Lake</strong> and <strong>Doddabidirakallu Kere</strong>, have reached <strong>100% weed dominance</strong> with <strong>0% detectable open water</strong>. These lakes have <strong>completely lost</strong> their ecological and flood-mitigation functions.
+                                    </p>
+                                </div>
+
+                                <div class="grid md:grid-cols-2 gap-8 ">
+                                    <div class="gradient-bg p-6 text-white shadow-lg">
+                                        <h4 class="font-bold mb-6 uppercase text-xs tracking-widest text-blue-400">Top 5 Most Choked Lakes (Average 2020-2025)</h4>
+                                        <table class="w-full text-sm text-left border-collapse">
+                                            <thead>
+                                                <tr class="border-b border-white/20">
+                                                    <th class="pb-2 font-bold uppercase text-[10px]">Lake Name</th>
+                                                    <th class="pb-2 font-bold uppercase text-[10px]">Dominance</th>
+                                                    <th class="pb-2 font-bold uppercase text-[10px]">Status</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody class="text-slate-200">
+                                                <tr class="border-b border-white/10">
+                                                    <td class="py-3 font-semibold text-white">Chikka Beguru Lake</td>
+                                                    <td class="py-3">1.00</td>
+                                                    <td class="py-3 font-bold text-blue-400 uppercase text-[10px]">Dead Zone</td>
+                                                </tr>
+                                                <tr class="border-b border-white/10">
+                                                    <td class="py-3 font-semibold text-white">Doddabidirakallu</td>
+                                                    <td class="py-3">1.00</td>
+                                                    <td class="py-3 font-bold text-blue-400 uppercase text-[10px]">Dead Zone</td>
+                                                </tr>
+                                                <tr class="border-b border-white/10">
+                                                    <td class="py-3 font-semibold text-white">Pattandur Agrahara</td>
+                                                    <td class="py-3">0.99</td>
+                                                    <td class="py-3 font-bold text-blue-400 uppercase text-[10px]">Severely Choked</td>
+                                                </tr>
+                                                <tr class="border-b border-white/10">
+                                                    <td class="py-3 font-semibold text-white">Vidyaranyapura Kere</td>
+                                                    <td class="py-3">0.99</td>
+                                                    <td class="py-3 font-bold text-blue-400 uppercase text-[10px]">Severely Choked</td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="py-3 font-semibold text-white">Mallasandra Lake</td>
+                                                    <td class="py-3">0.99</td>
+                                                    <td class="py-3 font-bold text-blue-400 uppercase text-[10px]">Severely Choked</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+
+                                    <div class="gradient-bg p-6 text-white shadow-lg">
+                                        <h4 class="font-bold mb-6 uppercase text-xs tracking-widest text-blue-400">Top 5 Most Dried Lakes (>2ha Potential)</h4>
+                                        <table class="w-full text-sm text-left border-collapse">
+                                            <thead>
+                                                <tr class="border-b border-white/20">
+                                                    <th class="pb-2 font-bold uppercase text-[10px]">Lake Name</th>
+                                                    <th class="pb-2 font-bold uppercase text-[10px]">Fill Ratio</th>
+                                                    <th class="pb-2 font-bold uppercase text-[10px]">Status</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody class="text-slate-200">
+                                                <tr class="border-b border-white/10">
+                                                    <td class="py-3 font-semibold text-white">Chikkalasandra Lake</td>
+                                                    <td class="py-3">0.00</td>
+                                                    <td class="py-3 font-bold text-blue-400 uppercase text-[10px]">Dry</td>
+                                                </tr>
+                                                <tr class="border-b border-white/10">
+                                                    <td class="py-3 font-semibold text-white">Konanakunte Lake</td>
+                                                    <td class="py-3">0.00</td>
+                                                    <td class="py-3 font-bold text-blue-400 uppercase text-[10px]">Dry</td>
+                                                </tr>
+                                                <tr class="border-b border-white/10">
+                                                    <td class="py-3 font-semibold text-white">Nagarbhavi Thorai</td>
+                                                    <td class="py-3">0.0007</td>
+                                                    <td class="py-3 font-bold text-blue-400 uppercase text-[10px]">Dry</td>
+                                                </tr>
+                                                <tr class="border-b border-white/10">
+                                                    <td class="py-3 font-semibold text-white">BEL Lake</td>
+                                                    <td class="py-3">0.0011</td>
+                                                    <td class="py-3 font-bold text-blue-400 uppercase text-[10px]">Dry</td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="py-3 font-semibold text-white">Kengeri Lake</td>
+                                                    <td class="py-3">0.0013</td>
+                                                    <td class="py-3 font-bold text-blue-400 uppercase text-[10px]">Dry</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        
+                        <div class="space-y-4 text-slate-700 leading-relaxed text-base text-justify mb-10">
+                            <div class="flex items-center space-x-4 mb-6">
+                                <span class="text-blue-600 font-black text-xl">3.3</span>
+                                <h3 class="font-bold uppercase tracking-widest text-slate-900 text-l"">Exposed Beds</h3>
+                            </div>
+
+                            <div class="ml-10 space-y-5 border-l-2 border-blue-600 pl-6">
+                            
+                                <div>
+                                    <p class="mb-6">
+                                        Across all the lakes, approximately <strong>25% to 34% of the lake area</strong> is neither water, nor weeds. This represents <strong>exposed, dry lake beds</strong>. 
+                                    </p>
+                                    <p>
+                                        These are the <strong>most critical zones for intervention</strong>, as they are <strong>hydrologically inactive</strong> and serve as the <strong>primary entry points for illegal activity</strong> and the <strong>permanent loss of lake area</strong>.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="space-y-4 text-slate-700 leading-relaxed text-base text-justify mb-10">
+                            <div class="flex items-center space-x-4 mb-6">
+                                <span class="text-blue-600 font-black text-xl">3.4</span>
+                                <h3 class="font-bold uppercase tracking-widest text-slate-900 text-l"">The Inverse Relationship of Water and Weeds</h3>
+                            </div>
+
+                            <div class="ml-10 space-y-5 border-l-2 border-blue-600 pl-6">
+
+                                <div>
+                                    <p class="mb-6">
+                                        The most significant statistical finding is the <strong>strong negative correlation (-0.71)</strong> between water trends and weed trends. This establishes a <strong>"Switch" Mechanism</strong>: for every hectare of open water lost per year, there is a corresponding and <strong>rapid expansion of weed cover</strong>.
+                                    </p>
+                                    <p>
+                                        Lakes like <strong>Hulimavu Lake</strong> and <strong>Kalkere Lake</strong> are currently in a state of <strong>"Hydrological Collapse,"</strong> losing water at rates of <strong>3–4 hectares per year</strong> while simultaneously being consumed by <strong>invasive weeds</strong>.
+                                    </p>
+                                </div>
+
+                                <div class="grid md:grid-cols-2 gap-8">
+                                    <div class="gradient-bg p-6 text-white shadow-lg">
+                                        <h4 class="font-bold mb-6 uppercase text-xs tracking-widest text-blue-400">Top 5 Fastest Drying Lakes</h4>
+                                        <table class="w-full text-sm text-left border-collapse">
+                                            <thead>
+                                                <tr class="border-b border-white/20">
+                                                    <th class="pb-2 font-bold uppercase text-[10px]">Lake Name</th>
+                                                    <th class="pb-2 font-bold uppercase text-[10px]">Water Cover (Ha)</th>
+                                                    <th class="pb-2 font-bold uppercase text-[10px]">Status</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody class="text-slate-200">
+                                                <tr class="border-b border-white/10">
+                                                    <td class="py-3 font-semibold text-white">Hulimavu Lake</td>
+                                                    <td class="py-3">-4.40</td>
+                                                    <td class="py-3 font-bold text-blue-400 uppercase text-[10px]">Rapid Collapse</td>
+                                                </tr>
+                                                <tr class="border-b border-white/10">
+                                                    <td class="py-3 font-semibold text-white">Kalkere Lake</td>
+                                                    <td class="py-3">-3.14</td>
+                                                    <td class="py-3 font-bold text-blue-400 uppercase text-[10px]">Rapid Collapse</td>
+                                                </tr>
+                                                <tr class="border-b border-white/10">
+                                                    <td class="py-3 font-semibold text-white">Yellamallappa Chetty</td>
+                                                    <td class="py-3">-2.23</td>
+                                                    <td class="py-3 font-bold text-blue-400 uppercase text-[10px]">Critical Loss</td>
+                                                </tr>
+                                                <tr class="border-b border-white/10">
+                                                    <td class="py-3 font-semibold text-white">Hoodi Lake</td>
+                                                    <td class="py-3">-1.22</td>
+                                                    <td class="py-3 font-bold text-blue-400 uppercase text-[10px]">High Stress</td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="py-3 font-semibold text-white">Madiwala Lake</td>
+                                                    <td class="py-3">-0.83</td>
+                                                    <td class="py-3 font-bold text-blue-400 uppercase text-[10px]">High Stress</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+
+                                    <div class="gradient-bg p-6 text-white shadow-lg pb-1">
+                                        <h4 class="font-bold mb-6 uppercase text-xs tracking-widest text-blue-400">Fastest Weed Expansion</h4>
+                                        <table class="w-full text-sm text-left border-collapse">
+                                            <thead>
+                                                <tr class="border-b border-white/20">
+                                                    <th class="pb-2 font-bold uppercase text-[10px]">Lake Name</th>
+                                                    <th class="pb-2 font-bold uppercase text-[10px]">Weed Cover (Ha)</th>
+                                                    <th class="pb-2 font-bold uppercase text-[10px]">Status</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody class="text-slate-200">
+                                                <tr class="border-b border-white/10">
+                                                    <td class="py-3 font-semibold text-white">Jakkur Lake</td>
+                                                    <td class="py-3">+4.10</td>
+                                                    <td class="py-3 font-bold text-blue-400 uppercase text-[10px]">Invasive Surge</td>
+                                                </tr>
+                                                <tr class="border-b border-white/10">
+                                                    <td class="py-3 font-semibold text-white">Kalkere Lake</td>
+                                                    <td class="py-3">+3.43</td>
+                                                    <td class="py-3 font-bold text-blue-400 uppercase text-[10px]">Invasive Surge</td>
+                                                </tr>
+                                                <tr class="border-b border-white/10">
+                                                    <td class="py-3 font-semibold text-white">Rachenahalli Lake</td>
+                                                    <td class="py-3">+2.85</td>
+                                                    <td class="py-3 font-bold text-blue-400 uppercase text-[10px]">Aggressive Growth</td>
+                                                </tr>
+                                                <tr class="border-b border-white/10">
+                                                    <td class="py-3 font-semibold text-white">Attur Lake</td>
+                                                    <td class="py-3">+2.41</td>
+                                                    <td class="py-3 font-bold text-blue-400 uppercase text-[10px]">Aggressive Growth</td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="py-3 font-semibold text-white">Dore Kere</td>
+                                                    <td class="py-3">+1.45</td>
+                                                    <td class="py-3 font-bold text-blue-400 uppercase text-[10px]">Active Choking</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    
+                        <div class="space-y-4 text-slate-700 leading-relaxed text-base text-justify mb-10">
+                            <div class="flex items-center space-x-4 mb-6">
+                                <span class="text-blue-600 font-black text-xl">3.5</span>
+                                <h3 class="font-bold uppercase tracking-widest text-slate-900 text-l"">Topographic Slope and Retention Limits</h3>
+                            </div>
+
+                            <div class="ml-10 space-y-5 border-l-2 border-blue-600 pl-6">
+                                <div class="pb-1">
+                                    <p class="mb-6">
+                                        There is a <strong>negative correlation</strong> between a lake's <strong>surrounding slope</strong> and its ability to maintain water or weeds. This creates a <strong>"Flushing Effect"</strong>: steeper lakes, such as <strong>Vasanthapura Lake</strong> and <strong>Dubasi Palya Kere</strong>, are more likely to have <strong>"all or nothing" hydrological profiles</strong>.
+                                    </p>
+                                    <p class="mb-6">
+                                        High slopes <strong>(>5%)</strong> suggest these lakes act as <strong>temporary conduits</strong> for urban runoff rather than long-term storage basins, making them highly susceptible to <strong>seasonal drying and siltation</strong>.
+                                    </p>
+                                    <p>
+                                        These areas become <strong>Siltation Hotspots</strong>. Lakes with steep slopes and high weed dominance are likely receiving <strong>high sediment loads</strong> from runoff, which settles and provides the <strong>substrate for permanent weed expansion</strong>.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="space-y-4 text-slate-700 leading-relaxed text-base text-justify mb-10">
+                            <div class="flex items-center space-x-4 mb-6">
+                                <span class="text-blue-600 font-black text-xl">3.6</span>
+                                <h3 class="font-bold uppercase tracking-widest text-slate-900 text-l"">The Flow Accumulation Paradox & Elevation Gradients</h3>
+                            </div>
+
+                            <div class="ml-10 space-y-5 border-l-2 border-blue-600 pl-6">
+
+                                <div class="pb-1">
+                                    <p class="mb-6">
+                                        Contrary to expectations, <strong>high flow accumulation</strong> does not always equate to better lake health. <strong>Low Flow Choking</strong> occurs in catchments where stagnant nutrients lead to a total takeover by vegetation, resulting in an average of <strong>59.8% weed dominance</strong>. Conversely, <strong>High Flow Resilience</strong> is observed in lakes with steady water throughput, showing the highest <strong>water-to-potential ratios (~40%)</strong>.
+                                    </p>
+                                    <p>
+                                        This is further complicated by the <strong>Elevation Gradient</strong>. Lakes at higher elevations <strong>(900m+)</strong> show significantly better <strong>Water Retention Ratios (~38%)</strong> compared to those in <strong>lower valleys (~24% at <840m)</strong>. Lower-elevation lakes bear the brunt of the city's <strong>cumulative pollution and siltation</strong>, causing them to shallow out and lose storage capacity.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    
+
+                        <div class="space-y-4 text-slate-700 leading-relaxed text-base text-justify mb-10">
+                            <div class="flex items-center space-x-4 mb-6">
+                                <span class="text-blue-600 font-black text-xl">3.7</span>
+                                <h3 class="font-bold uppercase tracking-widest text-slate-900 text-l"">The Directional Health Gradient: South-West vs. North-East</h3>
+                            </div>
+
+                            <div class="ml-10 space-y-5 border-l-2 border-blue-600 pl-6">
+                            
+                                <div class="pb-1">
+                                    <p class="mb-6">
+                                        There is a clear <strong>directional bias</strong> in lake health across the city. The <strong>South-West Stressor</strong> is particularly evident, as lakes draining towards the <strong>South-West and South-East</strong> are significantly more stressed. These water bodies show the <strong>lowest average water ratios (~29%)</strong> and the <strong>highest weed ratios (~62%)</strong>, suggesting these corridors bear <strong>heavier nutrient or sewage loads</strong> and are more prone to stagnation.
+                                    </p>
+                                    <p>
+                                        Conversely, <strong>North-East Resilience</strong> is observed in lakes with a North-East flow direction. These are the healthiest in the city, maintaining an <strong>average water ratio of 48%</strong> and the <strong>lowest weed dominance at 42%</strong>.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+
+                        
+
+                        <div class="space-y-4 text-slate-700 leading-relaxed text-base text-justify mb-10">
+                            <div class="flex items-center space-x-4 mb-6">
+                                <span class="text-blue-600 font-black text-xl">3.8</span>
+                                <h3 class="font-bold uppercase tracking-widest text-slate-900 text-l"">The "Starved Giants" (Hydrological Mismatch)</h3>
+                            </div>
+
+                            <div class="ml-10 space-y-5 border-l-2 border-blue-600 pl-6">
+                                <div class="pb-1">
+                                    <p class="mb-6">
+                                        Analysis has identified <strong>37 large lakes (&gt;5 ha)</strong> that are effectively <strong>"Hydrologically Starved."</strong> These lakes possess massive potential footprints but suffer from <strong>extremely low flow accumulation (&lt;0.1 km²)</strong>. Consequently, they receive almost no natural drainage and depend almost entirely on <strong>direct rainfall</strong>.
+                                    </p>
+                                    <p>
+                                        Large examples include <strong>Yelahanka Lake (96 ha)</strong> and <strong>Madiwala Lake (82 ha)</strong>. When these show high water ratios, it often indicates they are being <strong>artificially fed</strong> by treated sewage. Conversely, <strong>Kengeri Lake</strong> and <strong>Hulimavu Lake</strong> are actively drying out as their natural <strong>"flow-veins"</strong> have been severed by intense urban development.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="space-y-4 text-slate-700 leading-relaxed text-base text-justify mb-10">
+                            <div class="flex items-center space-x-4 mb-6">
+                                <span class="text-blue-600 font-black text-xl">3.9</span>
+                                <h3 class="font-bold uppercase tracking-widest text-slate-900 text-l"">The "True Flood" Intensity & Negative Health Correlation</h3>
+                            </div>
+
+                            <div class="ml-10 space-y-5 border-l-2 border-blue-600 pl-6">
+                            
+                                <div class="pb-1">
+                                    <p class="mb-6">
+                                        Flood frequency is measured as the percentage of time water is detected <strong>outside the normal dry-season baseline</strong>. While the average lake experiences flooding in 10.3% of observations, the <strong>"Very High Risk"</strong> group peaks at nearly 50%.
+                                    </p>
+                                    <p>
+                                        A significant <strong>negative correlation (-0.27)</strong> exists between flood frequency and water ratio. This reveals a critical paradox: <strong>drier lakes actually flood more frequently</strong>. Having lost the ability to absorb water gradually, these degraded basins act like concrete sumps that flash-flood instantly during rain.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="space-y-4 text-slate-700 leading-relaxed text-base text-justify mb-10">
+                            <div class="flex items-center space-x-4 mb-6">
+                                <span class="text-blue-600 font-black text-xl">3.10</span>
+                                <h3 class="font-bold uppercase tracking-widest text-slate-900 text-l"">Flash Flood Vulnerability Index (FFVI)</h3>
+                            </div>
+
+                            <div class="ml-10 space-y-5 border-l-2 border-blue-600 pl-6 pb-1">
+                                <p>
+                                    By identifying <strong>"Flash Flood Sinks"</strong>—lakes with low baseline storage but high inundation rates—we have pinpointed the city's most dangerous hydrological pressure points. These lakes are typically dry but inundate <strong>rapidly and violently</strong>.
+                                </p>
+                            
+
+                                <div class="gradient-bg p-6 text-white shadow-lg">
+                                    <h4 class="font-bold mb-6 uppercase text-xs tracking-widest text-blue-400">Flash Flood Sink Priority List</h4>
+                                    <table class="w-full text-sm text-left border-collapse pb-1">
+                                        <thead>
+                                            <tr class="border-b border-white/20">
+                                                <th class="pb-2 font-bold uppercase text-[10px]">Lake Name</th>
+                                                <th class="pb-2 font-bold uppercase text-[10px]">Flood Freq %</th>
+                                                <th class="pb-2 font-bold uppercase text-[10px]">Status</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody class="text-slate-200">
+                                            <tr class="border-b border-white/10">
+                                                <td class="py-3 font-semibold text-white">Doddabommasandra Kere</td>
+                                                <td class="py-3">49.6%</td>
+                                                <td class="py-3 font-bold text-blue-400 uppercase text-[10px]">Highest City Risk</td>
+                                            </tr>
+                                            <tr class="border-b border-white/10">
+                                                <td class="py-3 font-semibold text-white">Kogilu Lake</td>
+                                                <td class="py-3">36.0%</td>
+                                                <td class="py-3 font-bold text-blue-400 uppercase text-[10px]">Extreme Inundation</td>
+                                            </tr>
+                                            <tr class="border-b border-white/10">
+                                                <td class="py-3 font-semibold text-white">Bellandur Lake</td>
+                                                <td class="py-3">~31.0%</td>
+                                                <td class="py-3 font-bold text-blue-400 uppercase text-[10px]">Terminal Failure</td>
+                                            </tr>
+                                            <tr class="border-b border-white/10">
+                                                <td class="py-3 font-semibold text-white">Ramapura Kere</td>
+                                                <td class="py-3">28.9%</td>
+                                                <td class="py-3 font-bold text-blue-400 uppercase text-[10px]">Catchment Overload</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="py-3 font-semibold text-white">Varthur Lake</td>
+                                                <td class="py-3">~24.0%</td>
+                                                <td class="py-3 font-bold text-blue-400 uppercase text-[10px]">Terminal Failure</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            
+                        </div>
+
+
+                        <div class="space-y-4 text-slate-700 leading-relaxed text-base text-justify mb-10">
+                            <div class="flex items-center space-x-4 mb-6">
+                                <span class="text-blue-600 font-black text-xl">3.11</span>
+                                <h3 class="font-bold uppercase tracking-widest text-slate-900 text-l"">The Urbanization-Storage Trade-off</h3>
+                            </div>
+
+                            <div class="ml-10 space-y-5 border-l-2 border-blue-600 pl-6 pb-1">
+                            
+                                <div>
+                                    <p class="mb-6">
+                                        There is a stark <strong>inverse relationship</strong> between surrounding urbanization and hydrological health. Lakes in <strong>low urbanization</strong> areas maintain high water levels <strong>(avg 49% water ratio)</strong>. However, in <strong>extreme urbanization</strong> zones (>80% imperviousness), water ratios plummet to <strong>22%</strong>. These lakes are effectively being <strong>"paved over,"</strong> isolated from natural groundwater recharge zones.
+                                        <strong>Urbanization doesn't create more floods, it creates deadlier ones</strong>. Low-urban lakes flood often but gently. Whereas, extreme-urban lakes flood rarely but catastrophically.
+                                    </p>
+                                </div>
+
+                                <div class="gradient-bg p-6 text-white shadow-lg">
+                                    <h4 class="font-bold mb-6 uppercase text-xs tracking-widest text-blue-400">Urban Intensity vs. Hydrological Health</h4>
+                                    <table class="w-full text-sm text-left border-collapse">
+                                        <thead>
+                                            <tr class="border-b border-white/20">
+                                                <th class="pb-2 font-bold uppercase text-[10px]">Category</th>
+                                                <th class="pb-2 font-bold uppercase text-[10px]">Water Ratio</th>
+                                                <th class="pb-2 font-bold uppercase text-[10px]">Weed Area (ha)</th>
+                                                <th class="pb-2 font-bold uppercase text-[10px]">Status Label</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody class="text-slate-200">
+                                            <tr class="border-b border-white/10">
+                                                <td class="py-3 font-semibold text-white">Low Urban</td>
+                                                <td class="py-3">49.2%</td>
+                                                <td class="py-3">13.67</td>
+                                                <td class="py-3 font-bold text-blue-400 uppercase text-[10px]">Natural Wetland</td>
+                                            </tr>
+                                            <tr class="border-b border-white/10">
+                                                <td class="py-3 font-semibold text-white">Moderate Urban</td>
+                                                <td class="py-3">39.7%</td>
+                                                <td class="py-3">2.72</td>
+                                                <td class="py-3 font-bold text-blue-400 uppercase text-[10px]">Fragile Buffer</td>
+                                            </tr>
+                                            <tr class="border-b border-white/10">
+                                                <td class="py-3 font-semibold text-white">High Urban</td>
+                                                <td class="py-3">34.5%</td>
+                                                <td class="py-3">1.46</td>
+                                                <td class="py-3 font-bold text-blue-400 uppercase text-[10px]">Stressed Sink</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="py-3 font-semibold text-white">Extreme Urban</td>
+                                                <td class="py-3">22.2%</td>
+                                                <td class="py-3">1.05</td>
+                                                <td class="py-3 font-bold text-blue-400 uppercase text-[10px]">Critical Failure</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="space-y-4 text-slate-700 leading-relaxed text-base text-justify mb-10">
+                            <div class="flex items-center space-x-4 mb-6">
+                                <span class="text-blue-600 font-black text-xl">3.12</span>
+                                <h3 class="font-bold uppercase tracking-widest text-slate-900 text-l"">Rainfall Intensity: The "Stress Tests"</h3>
+                            </div>
+
+                            <div class="ml-10 space-y-5 border-l-2 border-blue-600 pl-6 pb-1">
+                                <p class="mb-6">
+                                    The city's infrastructure faced a <strong>2022 Peak</strong> with a 3-day rainfall average of <strong>108mm</strong>, explaining the massive flood events of that year. Current trends show a <strong>2025 Surge</strong>, with averages reaching <strong>100.4mm</strong>, ensuring that vulnerable lakes remain under extreme pressure. 
+                                </p>
+                                <p>
+                                    While there is a <strong>moderate correlation (0.41)</strong> between rainfall and lake water area, the <strong>"Creeping Concrete"</strong> trend—with city-wide impervious fractions rising from <strong>48.6% to 51.2%</strong>—means that even moderate rain now triggers disproportionate flood risks.
+                                </p>
+                            </div>
+                        </div>
+
+
+                        <div class="space-y-4 text-slate-700 leading-relaxed text-base text-justify mb-10">
+                            <div class="flex items-center space-x-4 mb-6">
+                                <span class="text-blue-600 font-black text-xl">3.13</span>
+                                <h3 class="font-bold uppercase tracking-widest text-slate-900 text-l"">Five-Year Urbanization Trend (2020–2025)</h3>
+                            </div>
+                            <div class="ml-10 space-y-5 border-l-2 border-blue-600 pl-6 pb-1">
+                                <div>
+                                    <p>
+                                        The city-wide <strong>Average Impervious Fraction</strong> has seen a steady rise, peaking at <strong>51.2% in 2024</strong>. This reflects a persistent <strong>"Creeping Concrete"</strong> effect where natural absorbent soil is being replaced by impermeable surfaces at a rate that the cascading lake system can no longer sustain.
+                                        <strong>Therefore, Bengaluru paved its way to flash floods</strong>.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+
+                        
+
+                    </div>
+            </div>
+        
+        </section>
+
+
+        <section id="innovation" class="mb-20">
+            <div class="mt-12 text-slate-900 leading-relaxed text-base text-justify">
+                <h2 class="bg-slate-900 p-8 text-white text-2xl font-bold uppercase tracking-widest border-l-4 border-blue-600 pl-4">05. Decision Dashboard
+                </h2>
+            </div>
+            
+            <div class="space-y-8 text-slate-700 leading-relaxed text-base text-justify">
+                <div class="bg-white p-8 border border-slate-200 shadow-sm">
+
+                </div>
+            </div>
+
+        </section>
+
+
+        <section id="implementation" class="mb-20">
+            <h3 class="text-3xl font-bold mb-8 flex items-center">
+                <span class="w-8 h-1 bg-blue-500 inline-block mr-4"></span>04. 12-Month Roadmap 
+            </h3>
+            <div class="relative border-l-2 border-slate-200 ml-4 pl-8 space-y-12">
+                <div class="relative">
+                    <div class="absolute -left-[41px] top-0 w-5 h-5 bg-blue-500 rounded-full border-4 border-white"></div>
+                    <h4 class="font-bold text-slate-800">PHASE 1: Research & Prototyping (Months 0-4)</h4>
+                    <p class="text-slate-600 text-sm mt-1">Finalise model calibration and validate historical flood outputs. [cite: 227]</p>
+                </div>
+                <div class="relative">
+                    <div class="absolute -left-[41px] top-0 w-5 h-5 bg-slate-300 rounded-full border-4 border-white"></div>
+                    <h4 class="font-bold text-slate-800">PHASE 2: Pilot Testing (Months 5-8)</h4>
+                    <p class="text-slate-600 text-sm mt-1">Deploy framework across 10-15 high-risk lakes in one BBMP zone. [cite: 228]</p>
+                </div>
+                <div class="relative">
+                    <div class="absolute -left-[41px] top-0 w-5 h-5 bg-slate-300 rounded-full border-4 border-white"></div>
+                    <h4 class="font-bold text-slate-800">PHASE 3: Feedback & Scaling (Months 9-12)</h4>
+                    <p class="text-slate-600 text-sm mt-1">Integrate into pre-monsoon planning and prepare regional modules. [cite: 230]</p>
+                </div>
+            </div>
+        </section>
+
+        <footer class="bg-slate-100 p-12 rounded-3xl border border-slate-200 text-center">
+            <h4 class="text-2xl font-bold text-slate-900 mb-4">Precision Governance for Flood Resilience</h4>
+            <p class="text-slate-600 mb-8 max-w-xl mx-auto italic">"Placing satellite intelligence into the hands of stakeholders to achieve flood resilience, not just response." [cite: 210]</p>
+            <div class="flex justify-center gap-4">
+                <a href="#" class="bg-blue-600 text-white px-8 py-3 rounded-xl font-bold hover:bg-blue-700 transition">Contact Team</a>
+                <a href="#" class="bg-white border border-slate-300 text-slate-700 px-8 py-3 rounded-xl font-bold hover:bg-slate-50 transition">View Methodology</a>
+            </div>
+        </footer>
+
+    </main>
+
+</body>
+</html>
