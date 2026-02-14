@@ -61,7 +61,7 @@ def safety_interval(flood_pred, coverage=0.95):
 
 # --- UI LAYOUT ---
 st.set_page_config(page_title="Bengaluru Lake Risk Dashboard", layout="wide")
-st.title("🏞️ Bengaluru Lake Flood Risk Decision Engine")
+st.title("Bengaluru Lake Flood Risk Decision Engine")
 st.markdown("**Satellite Intelligence → BBMP Action Plans** | Ridge Regressed | 100% Safety Coverage")
 
 # Sidebar
@@ -90,12 +90,12 @@ with col1:
     st_folium(m, width=700, height=450)
 
 with col2:
-    st.subheader("🔥 High Risk Hotspots")
+    st.subheader("High Risk Hotspots")
     top5 = df.nlargest(5, 'sar_flood_freq_pct')[['name', 'sar_flood_freq_pct']]
     st.dataframe(top5.style.format({'sar_flood_freq_pct': '{:.1f}%'}), use_container_width=True)
 
 # 4. BUDGET METRICS
-st.subheader("💰 Budget Allocation Impact")
+st.subheader("Budget Allocation Impact")
 c1, c2, c3 = st.columns(3)
 c1.metric("Lakes Affordable", len(optimized_lakes))
 c2.metric("Total Risk Mitigation", f"{total_reduction:.1f}%")
