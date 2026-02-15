@@ -346,18 +346,29 @@ final_display = final_display.rename(columns={
     'priority_score': 'Priority Rank'
 })
 
-try:
-    styled_df = final_display.style.background_gradient(
-        subset=['Priority Rank'], cmap='Blues'
-    ).format({
-        'Estimated Cost': '₹ {:,.0f}', 
-        'Flood Risk Percent': '{:.1f}%',
-        'Priority Rank': '{:.2f}'
-    })
-    st.dataframe(styled_df, width="stretch")
-except Exception as e:
-    st.warning("Visual styling inactive. Displaying raw data table.")
-    st.dataframe(final_display, width="stretch")
+st.dataframe(
+    final_display,
+    column_config={
+        "Priority Rank": st.column_config.ProgressColumn(
+            "Priority Rank",
+            help="Higher value indicates higher restoration priority",
+            format="%.2f",
+            min_value=0,
+            max_value=5, # or final_display["Priority Rank"].max()
+            color="blue" # Matches your 'Blues' cmap preference
+        ),
+        "Estimated Cost": st.column_config.NumberColumn(
+            "Estimated Cost",
+            format="₹ %d",
+        ),
+        "Flood Risk Percent": st.column_config.NumberColumn(
+            "Flood Risk",
+            format="%.1f%%",
+        )
+    },
+    hide_index=True,
+    use_container_width=True
+)
 
 if st.button("Finalize Action Plan"):
     st.balloons()
