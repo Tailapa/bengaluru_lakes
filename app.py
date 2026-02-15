@@ -116,7 +116,7 @@ def load_data():
 
 def optimize_lakes(df, budget):
     # ROI: Percentage risk reduced per Rupee spent
-    df['priority_score'] = df['sar_flood_freq_pct'] / df['est_cost']
+    df['priority_score'] = (df['sar_flood_freq_pct'] / df['est_cost'])*1000
     df['flood_reduction'] = df['sar_flood_freq_pct'] * 0.65 
     
     optimized = df.sort_values('priority_score', ascending=False).copy()
@@ -213,7 +213,8 @@ final_display = affordable_lakes[['name', 'sar_flood_freq_pct', 'est_cost', 'pri
 final_display = final_display.rename(columns={
     'name': 'Lake Name',
     'sar_flood_freq_pct': 'Flood Risk %',
-    'est_cost': 'Estimated Cost'
+    'est_cost': 'Estimated Cost',
+    'priority_score': 'Priority Score'
 })
 
 try:
