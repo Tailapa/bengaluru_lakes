@@ -321,7 +321,7 @@ with col2:
     st.plotly_chart(fig_curve, width="stretch")
 
 # 5. DIAGNOSTICS
-st.subheader("Model Integrity Diagnostics")
+st.subheader("Model Evaluation")
 c1, c2 = st.columns(2)
 
 with c1:
