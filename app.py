@@ -15,73 +15,56 @@ from sklearn.metrics import mean_squared_error
 # --- APP CONFIG ---
 st.set_page_config(page_title="Bengaluru Flood Engine", layout="wide")
 
-# Modern Professional Styling
+# Modern Professional Styling (CSS)
 st.markdown("""
     <style>
-    /* 1. Change the Sidebar (Control Panel) background */
     [data-testid="stSidebar"] {
-        background-color: #0e1117; /* Darker professional Navy */
+        background-color: #0e1117;
     }
-
-    /* 2. Change the 'Control Panel' header text color */
     [data-testid="stSidebar"] h1, [data-testid="stSidebar"] h2 {
-        color: #3b82f6 !important; /* Tech Blue */
+        color: #3b82f6 !important;
     }
-
-    /* 3. Change the 'Desilting Budget' slider text color */
     [data-testid="stWidgetLabel"] p {
-        color: #ffffff !important; /* Pure white for readability */
+        color: #ffffff !important;
         font-weight: 600;
         font-size: 1.1rem;
     }
-
-    /* 4. Optional: Change the slider handle color to match your theme */
     .stSlider [data-baseweb="slider"] > div > div {
         background-color: #3b82f6 !important;
     }
-
-    /* 5. Target the Slider Min/Max numbers (500000 and 20000000) */
     [data-testid="stTickBarMin"], [data-testid="stTickBarMax"] {
-        color: #ffffff !important; /* Soft Blue */
+        color: #ffffff !important;
         font-weight: bold;
     }
-
-    /* 6. Target the Metric Label (Model Precision (RMSE)) */
     [data-testid="stMetricLabel"] {
-        color: #94a3b8 !important; /* Muted Slate Gray */
+        color: #94a3b8 !important;
         font-size: 1rem !important;
     }
-
-    /* 7. Target the Metric Value (±3.77%) */
     [data-testid="stMetricValue"] {
-        color: #10b981 !important; /* Success Green */
+        color: #10b981 !important;
         font-weight: 800 !important;
     }
-
-    /* 8. Target the Sidebar Info Box text */
-    [data-testid="stSidebar"] .stAlert p {
-        color: #3b82f6 !important;
-    }    
     </style>
     """, unsafe_allow_html=True)
-
-
 
 # 1. LOAD DATA & ADVANCED PRE-PROCESSING
 @st.cache_data
 def load_data():
     # Load primary data
-    df = pd.read_csv('data/dashboard_data.csv')
-    df = df.loc[:, ~df.columns.str.contains('Unnamed')]
-    df = df.groupby('name').mean()
-    df = df.drop(columns=['year'])
+    df_raw = pd.read_csv('data/dashboard_data.csv')
+    df_raw = df_raw.loc[:, ~df_raw.columns.str.contains('Unnamed')]
     
-    # Merge Coordinates
+    # Aggregate by lake name to prevent duplicates (averaging features)
+    df = df_raw.groupby('name').mean(numeric_only=True).reset_index()
+    if 'year' in df.columns:
+        df = df.drop(columns=['year'])
+    
+    # Merge Coordinates (Single record per lake)
     df_cords = pd.read_csv('data/lakes_dashboard.csv')
-    cords = df_cords[['name', 'lat', 'lon']]
+    cords = df_cords[['name', 'lat', 'lon']].drop_duplicates(subset=['name'])
     df = df.merge(cords, how='left', on='name')
     
-    # Fill missing coords to prevent Folium crash
+    # Fill missing coords
     df['lat'] = df['lat'].fillna(12.97)
     df['lon'] = df['lon'].fillna(77.59)
 
@@ -105,18 +88,20 @@ def load_data():
     df['predicted_flood'] = model.predict(X)
     df['rmse_buffer'] = rmse
     
-    # Polynomial Cost Modeling (The Utility)
-    # Quadratic growth simulates logistical complexity of larger lakes
+    # Feature Importance for Decision Transparency
+    importance = pd.Series(model.feature_importances_, index=features).sort_values(ascending=False)
+    
+    # Polynomial Cost Modeling
     poly_cost = make_pipeline(PolynomialFeatures(degree=2), Ridge())
     mock_y = (df['potential_ha']**2 * 55) + (df['potential_ha'] * 4800) + 12000
     poly_cost.fit(df[['potential_ha']], mock_y)
     df['est_cost'] = poly_cost.predict(df[['potential_ha']])
     
-    return df, rmse
+    return df, rmse, importance
 
 def optimize_lakes(df, budget):
-    # ROI: Percentage risk reduced per Rupee spent
-    df['priority_score'] = (df['sar_flood_freq_pct'] / df['est_cost'])*10000
+    # ROI: Priority Score scaled for readability
+    df['priority_score'] = (df['sar_flood_freq_pct'] / df['est_cost']) * 10000
     df['flood_reduction'] = df['sar_flood_freq_pct'] * 0.65 
     
     optimized = df.sort_values('priority_score', ascending=False).copy()
@@ -128,7 +113,7 @@ def optimize_lakes(df, budget):
 
 # --- DATA INITIALIZATION ---
 try:
-    df, model_rmse = load_data()
+    df, model_rmse, feat_importance = load_data()
 except Exception as e:
     st.error(f"Data Load Error: {e}")
     st.stop()
@@ -136,9 +121,11 @@ except Exception as e:
 # --- SIDEBAR ---
 with st.sidebar:
     st.header("Control Panel")
-    budget = st.slider("Desilting Budget (₹)", 500000, 20000000, 5000000, step=500000)
+    budget = st.slider("Desilting Budget (INR)", 500000, 20000000, 5000000, step=500000)
     st.divider()
-    st.metric("Model Precision (RMSE)", f"±{model_rmse:.2f}%")
+    st.metric("Model Precision (RMSE)", f"plus/minus {model_rmse:.2f}%")
+    st.write("Top Risk Drivers")
+    st.bar_chart(feat_importance.head(5))
 
 affordable_lakes, full_optimized = optimize_lakes(df, budget)
 
@@ -150,32 +137,39 @@ m1, m2, m3, m4 = st.columns(4)
 m1.metric("Lakes Affordable", len(affordable_lakes))
 m2.metric("Total Mitigation", f"{affordable_lakes['flood_reduction'].sum():.1f}%")
 m3.metric("Budget Efficiency", f"{(affordable_lakes['est_cost'].sum()/budget)*100:.1f}%")
-m4.metric("Avg. Lake Cost", f"₹{affordable_lakes['est_cost'].mean():,.0f}")
+m4.metric("Average Lake Cost", f"INR {affordable_lakes['est_cost'].mean():,.0f}")
 
 # 4. MAP & CURVE
 col1, col2 = st.columns([1.5, 1])
 
 with col1:
-    st.subheader("Deployment Strategy")
+    st.subheader("Deployment Strategy Map")
     m = folium.Map(location=[12.97, 77.59], zoom_start=11, tiles="CartoDB positron")
     for _, row in affordable_lakes.iterrows():
+        # Dynamic color logic: Red for high risk, Blue for manageable
+        marker_color = "#ef4444" if row['sar_flood_freq_pct'] > 20 else "#3b82f6"
         folium.CircleMarker(
             location=[row['lat'], row['lon']],
-            radius=row['sar_flood_freq_pct']*0.8,
-            popup=f"<b>{row['name']}</b><br>Cost: ₹{row['est_cost']:,.0f}",
-            color='#3b82f6', fill=True, fill_opacity=0.7
+            radius=row['sar_flood_freq_pct'] * 0.7,
+            popup=f"Lake: {row['name']}<br>Cost: INR {row['est_cost']:,.0f}",
+            color=marker_color, fill=True, fill_opacity=0.6
         ).add_to(m)
     st_folium(m, width="stretch", height=450)
 
 with col2:
-    st.subheader("Diminishing Returns")
+    st.subheader("Diminishing Returns Analysis")
     fig_curve = go.Figure()
     fig_curve.add_trace(go.Scatter(
         x=full_optimized['cum_cost'], y=full_optimized['cum_reduction'],
         mode='lines', fill='tozeroy', line=dict(color='#3b82f6', width=3)
     ))
     fig_curve.add_vline(x=budget, line_dash="dash", line_color="#ef4444")
-    fig_curve.update_layout(template="plotly_white", xaxis_title="Total Spend", yaxis_title="Total Risk Reduced", margin=dict(t=20))
+    fig_curve.update_layout(
+        template="plotly_white", 
+        xaxis_title="Cumulative Spend (INR)", 
+        yaxis_title="Total Mitigation (%)",
+        margin=dict(t=20, l=10, r=10, b=10)
+    )
     st.plotly_chart(fig_curve, width="stretch")
 
 # 5. DIAGNOSTICS
@@ -183,10 +177,8 @@ st.subheader("Model Integrity Diagnostics")
 c1, c2 = st.columns(2)
 
 with c1:
-    # REPLACED 'trendline="ols"' with identity line to fix error
-    fig_acc = px.scatter(df, x='predicted_flood', y='sar_flood_freq_pct', opacity=0.4,
-                         title="Accuracy: Predicted vs. Actual")
-    # Add 45-degree identity line
+    fig_acc = px.scatter(df, x='predicted_flood', y='sar_flood_freq_pct', opacity=0.5,
+                         title="Accuracy: Predicted vs. Actual Risk")
     max_val = df['sar_flood_freq_pct'].max()
     fig_acc.add_shape(type="line", x0=0, y0=0, x1=max_val, y1=max_val, line=dict(color="#ef4444", dash="dot"))
     fig_acc.update_layout(template="plotly_white")
@@ -200,43 +192,34 @@ with c2:
         error_y=dict(type='data', array=sample['rmse_buffer']*1.5, color='#ef4444'),
         marker=dict(size=12, color='#3b82f6')
     ))
-    fig_safe.update_layout(template="plotly_white", title="Safety Buffer Analysis",
-                          legend=dict(orientation="h", yanchor="bottom", y=1.02, xanchor="right", x=1))
+    fig_safe.update_layout(template="plotly_white", title="Safety Confidence Intervals")
     st.plotly_chart(fig_safe, width="stretch")
 
 # 6. ACTION TABLE
 st.subheader("Priority Desilting Checklist")
-# Ensure matplotlib is installed for the gradient
 
-# Prepare the data outside the try block so it's available to both
-final_display = affordable_lakes[['name', 'sar_flood_freq_pct', 'est_cost', 'priority_score']].drop_duplicates(subset=['name'])
+# Process table data
+final_display = affordable_lakes[['name', 'sar_flood_freq_pct', 'est_cost', 'priority_score']].drop_duplicates(subset=['name']).reset_index(drop=True)
 final_display = final_display.rename(columns={
     'name': 'Lake Name',
-    'sar_flood_freq_pct': 'Flood Risk %',
+    'sar_flood_freq_pct': 'Flood Risk Percent',
     'est_cost': 'Estimated Cost',
-    'priority_score': 'Priority Score'
+    'priority_score': 'Priority Rank'
 })
 
 try:
-    # Attempt advanced styling
     styled_df = final_display.style.background_gradient(
-        subset=['priority_score'], cmap='Blues'
+        subset=['Priority Rank'], cmap='Blues'
     ).format({
-        'Estimated Cost': '₹{:,.0f}', 
-        'Flood Risk %': '{:.1f}%'
+        'Estimated Cost': 'INR {:,.0f}', 
+        'Flood Risk Percent': '{:.1f}%',
+        'Priority Rank': '{:.2f}'
     })
     st.dataframe(styled_df, width="stretch")
-
 except Exception as e:
-    # FALLBACK: Log the error for the developer and show raw data to the user
-    st.warning("Advanced table styling is unavailable. Showing raw data.")
-    
-    # Optional: Log the specific error to the console for debugging
-    print(f"Styling Error: {e}") 
-    
-    # Show the clean but unstyled dataframe
+    st.warning("Visual styling inactive. Displaying raw data table.")
     st.dataframe(final_display, width="stretch")
 
-if st.button("Generate PDF Action Plan"):
+if st.button("Finalize Action Plan"):
     st.balloons()
-    st.success("Yet to formulate")
+    st.success("Yet to be formulated")
