@@ -19,14 +19,14 @@ st.set_page_config(page_title="Bengaluru Flood Engine", layout="wide")
 st.markdown("""
     <style>
     /* Hides the GitHub icon and the main menu */
-    MainMenu {visibility: hidden;}
-    #header {visibility: hidden;}
+    #MainMenu {visibility: hidden;}
+    header {visibility: hidden;}
     
     /* Hides the footer (Made with Streamlit) */
     footer {visibility: hidden;}
     
     /* Optional: If you want to keep the menu but hide ONLY the 'View Source' button */
-    /* .viewerBadge_link__1S137 {display: none;} */
+    .viewerBadge_link__1S137 {display: none;} 
     [data-testid="stSidebar"] {
         background-color: #0e1117;
     }
