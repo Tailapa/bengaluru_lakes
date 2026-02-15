@@ -207,12 +207,35 @@ with c2:
 # 6. ACTION TABLE
 st.subheader("Priority Desilting Checklist")
 # Ensure matplotlib is installed for the gradient
+
+# Prepare the data outside the try block so it's available to both
+final_display = affordable_lakes[['name', 'sar_flood_freq_pct', 'est_cost', 'priority_score']].drop_duplicates(subset=['name'])
+final_display = final_display.rename(columns={
+    'name': 'Lake Name',
+    'sar_flood_freq_pct': 'Flood Risk %',
+    'est_cost': 'Estimated Cost'
+})
+
 try:
-    styled_df = affordable_lakes[['name', 'sar_flood_freq_pct', 'est_cost', 'priority_score']].style.background_gradient(subset=['priority_score'], cmap='Blues').format({'est_cost': '₹{:,.0f}', 'sar_flood_freq_pct': '{:.1f}%'})
+    # Attempt advanced styling
+    styled_df = final_display.style.background_gradient(
+        subset=['priority_score'], cmap='Blues'
+    ).format({
+        'Estimated Cost': '₹{:,.0f}', 
+        'Flood Risk %': '{:.1f}%'
+    })
     st.dataframe(styled_df, width="stretch")
-except:
-    st.dataframe(affordable_lakes[['name', 'sar_flood_freq_pct', 'est_cost']], width="stretch")
+
+except Exception as e:
+    # FALLBACK: Log the error for the developer and show raw data to the user
+    st.warning("Advanced table styling is unavailable. Showing raw data.")
+    
+    # Optional: Log the specific error to the console for debugging
+    print(f"Styling Error: {e}") 
+    
+    # Show the clean but unstyled dataframe
+    st.dataframe(final_display, width="stretch")
 
 if st.button("Generate PDF Action Plan"):
     st.balloons()
-    st.success("Plan exported for BBMP review.")
+    st.success("Yet to formulate")
