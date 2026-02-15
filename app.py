@@ -243,7 +243,7 @@ import folium
 from streamlit_folium import st_folium
 
 with col1:
-    st.subheader("Deployment Strategy Map")
+    st.subheader("Geospatial Lake Identification Strategy")
     m = folium.Map(location=[12.97, 77.59], zoom_start=11, tiles="CartoDB positron")
     
     # 1. Add Legend HTML/CSS
