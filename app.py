@@ -148,7 +148,7 @@ with st.sidebar:
               value=f"± {model_rmse:.2f}%",
               help="Root Mean Square Error: The average difference between the model's predicted flood risk and the actual observed risk.")
     
-    # st.write("Top Risk Drivers")
+    # st.write("Top Risk Factors")
     # st.bar_chart(feat_importance.head(5))
 
     st.markdown("<p style='color: #ffffff; font-size: 14px; font-weight: bold; margin-bottom: 0px;'>Top Risk Drivers</p>", unsafe_allow_html=True)
