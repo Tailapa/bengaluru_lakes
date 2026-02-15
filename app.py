@@ -140,7 +140,7 @@ with col2:
         xaxis_title="Cumulative Spend (₹)", yaxis_title="Total Risk Reduced (%)",
         hovermode="x unified"
     )
-    st.plotly_chart(fig_curve, use_container_width=True)
+    st.plotly_chart(fig_curve, width="stretch")
 
 # 5. MODEL VALIDATION & SAFETY (REFINED PLOTLY)
 st.markdown("---")
@@ -154,7 +154,7 @@ with c1:
                          trendline="ols", labels={'predicted_flood':'Predicted Risk', 'sar_flood_freq_pct':'Actual Risk'},
                          title="Model Accuracy (Observed vs Predicted)")
     fig_acc.update_traces(marker=dict(size=10, color='#1e293b', opacity=0.6))
-    st.plotly_chart(fig_acc, use_container_width=True)
+    st.plotly_chart(fig_acc, width="stretch")
 
 with c2:
     # Safety Intervals for High Priority Lakes
@@ -173,7 +173,7 @@ with c2:
         template="plotly_white", title="Safety Confidence Intervals",
         legend=dict(orientation="h", yanchor="bottom", y=1.02, xanchor="right", x=1)
     )
-    st.plotly_chart(fig_safe, use_container_width=True)
+    st.plotly_chart(fig_safe, width="stretch")
 
 # 6. ACTION TABLE
 st.subheader("Final Action Plan: Top Priority Desilting")
@@ -181,7 +181,7 @@ st.dataframe(
     affordable_lakes[['name', 'sar_flood_freq_pct', 'est_cost', 'priority_score']]
     .style.background_gradient(subset=['priority_score'], cmap='Blues')
     .format({'est_cost': '₹{:,.0f}', 'sar_flood_freq_pct': '{:.1f}%'}),
-    use_container_width=True
+    width="stretch"
 )
 
 if st.button("🚀 Finalize BBMP Checklist"):
