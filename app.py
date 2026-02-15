@@ -18,10 +18,31 @@ st.set_page_config(page_title="Bengaluru Flood Engine", layout="wide")
 # Modern Professional Styling
 st.markdown("""
     <style>
-    .stMetric { background-color: #ffffff; padding: 15px; border-radius: 10px; border: 1px solid #e2e8f0; }
-    [data-testid="stSidebar"] { background-color: #0f172a; }
+    /* 1. Change the Sidebar (Control Panel) background */
+    [data-testid="stSidebar"] {
+        background-color: #0e1117; /* Darker professional Navy */
+    }
+
+    /* 2. Change the 'Control Panel' header text color */
+    [data-testid="stSidebar"] h1, [data-testid="stSidebar"] h2 {
+        color: #3b82f6 !important; /* Tech Blue */
+    }
+
+    /* 3. Change the 'Desilting Budget' slider text color */
+    [data-testid="stWidgetLabel"] p {
+        color: #ffffff !important; /* Pure white for readability */
+        font-weight: 600;
+        font-size: 1.1rem;
+    }
+
+    /* 4. Optional: Change the slider handle color to match your theme */
+    .stSlider [data-baseweb="slider"] > div > div {
+        background-color: #3b82f6 !important;
+    }
     </style>
     """, unsafe_allow_html=True)
+
+
 
 # 1. LOAD DATA & ADVANCED PRE-PROCESSING
 @st.cache_data
