@@ -18,6 +18,9 @@ st.set_page_config(page_title="Bengaluru Flood Engine", layout="wide")
 # Modern Professional Styling (CSS)
 st.markdown("""
     <style>
+    /* Hides the GitHub icon and the main menu */
+    /* Optional: If you want to keep the menu but hide ONLY the 'View Source' button */
+    /* .viewerBadge_link__1S137 {display: none;} */
     [data-testid="stSidebar"] {
         background-color: #0e1117;
     }
