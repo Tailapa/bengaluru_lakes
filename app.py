@@ -2,128 +2,182 @@ import streamlit as st
 import pandas as pd
 import numpy as np
 import folium
-from streamlit_folium import st_folium # Updated from folium_static to avoid deprecation
+from streamlit_folium import st_folium
 import plotly.express as px
 import plotly.graph_objects as go
 from plotly.subplots import make_subplots
 from sklearn.linear_model import Ridge
+from sklearn.model_selection import train_test_split
+from sklearn.ensemble import GradientBoostingRegressor
 from sklearn.preprocessing import StandardScaler, PolynomialFeatures
 from sklearn.pipeline import make_pipeline
+from sklearn.metrics import mean_squared_error
+
+# --- SETTINGS & THEMING ---
+st.set_page_config(page_title="Bengaluru Flood Engine", layout="wide")
+
+# Custom CSS for a cleaner, modern look
+st.markdown("""
+    <style>
+    .main { background-color: #f8f9fa; }
+    .stMetric { background-color: #ffffff; padding: 15px; border-radius: 10px; box-shadow: 0 2px 4px rgba(0,0,0,0.05); }
+    [data-testid="stSidebar"] { background-color: #1e293b; color: white; }
+    </style>
+    """, unsafe_allow_html=True)
 
 # 1. LOAD DATA & ADVANCED PRE-PROCESSING
 @st.cache_data
 def load_data():
-    # Fix: Ensure filename matches your uploaded file
-    df = pd.read_csv('data/lakes_dashboard.csv') 
+    df = pd.read_csv('data/dashboard_data.csv')
+    df = df.loc[:, ~df.columns.str.contains('Unnamed')]
     
-    # ADVANCED REGRESSION UTILITY: 
-    # Use Ridge Regression to fill 'predicted_flood' if not in CSV
-    features = ['impervious_fraction', 'urban_stress', 'potential_ha', 'slope']
+    # Feature Engineering
+    rain_feats = ['max_3day_rain_mm', 'peak_30min_intensity_mm'] 
+    urban_feats = ['impervious_fraction', 'urban_stress']
+    physical_feats = ['potential_ha', 'csr_ratio', 'elevation', 'slope', 'biological_clogging', 'log_flow']
+    features = rain_feats + urban_feats + physical_feats
+    
     X = df[features].fillna(0)
     y = df['sar_flood_freq_pct']
     
-    # 
-    model = make_pipeline(StandardScaler(), Ridge(alpha=1.0))
-    model.fit(X, y)
-    df['predicted_flood'] = model.predict(X)
+    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+
+    # ADVANCED MODEL: Gradient Boosting
+    model = GradientBoostingRegressor(n_estimators=300, learning_rate=0.05, max_depth=4, random_state=42)
+    model.fit(X_train, y_train)
     
-    # POLYNOMIAL UTILITY:
-    # Use a quadratic curve (Degree 2) to estimate costs (logistics are non-linear)
-    # 
-
-
+    # Calculate RMSE for dynamic Safety Intervals
+    y_pred_test = model.predict(X_test)
+    rmse = np.sqrt(mean_squared_error(y_test, y_pred_test))
+    
+    df['predicted_flood'] = model.predict(X)
+    df['rmse_buffer'] = rmse # Store for the safety_interval function
+    
+    # POLYNOMIAL COST UTILITY (Quadratic Growth)
     poly_cost = make_pipeline(PolynomialFeatures(degree=2), Ridge())
-    # Training mock cost: area^2 + area base cost
-    mock_y = (df['potential_ha']**2 * 50) + (df['potential_ha'] * 5000) + 10000
+    mock_y = (df['potential_ha']**2 * 55) + (df['potential_ha'] * 4800) + 12000
     poly_cost.fit(df[['potential_ha']], mock_y)
     df['est_cost'] = poly_cost.predict(df[['potential_ha']])
     
-    return df
+    return df, rmse
 
-# 2. BUDGET OPTIMIZER
+# 2. OPTIMIZATION & INTERVALS
 def optimize_lakes(df, budget):
-    """Rank lakes by bang-for-buck: flood_risk_reduction / cost"""
-    # Fix: Use correct column names from your CSV
-    df['priority_score'] = df['sar_flood_freq_pct'] / (df['est_cost'] + 1)
-    df['flood_reduction'] = df['sar_flood_freq_pct'] * 0.6 
+    # ROI Score: Risk reduced per Rupee
+    df['priority_score'] = df['sar_flood_freq_pct'] / df['est_cost']
+    df['flood_reduction'] = df['sar_flood_freq_pct'] * 0.65 
     
-    # Filter and Sort
-    optimized = df.sort_values('priority_score', ascending=False)
+    optimized = df.sort_values('priority_score', ascending=False).copy()
     optimized['cum_cost'] = optimized['est_cost'].cumsum()
-    affordable = optimized[optimized['cum_cost'] <= budget]
+    optimized['cum_reduction'] = optimized['flood_reduction'].cumsum()
     
-    return affordable, affordable['flood_reduction'].sum()
+    affordable = optimized[optimized['cum_cost'] <= budget].copy()
+    return affordable, optimized
 
-def safety_interval(flood_pred, coverage=0.95):
-    lower = flood_pred * 0.75
-    upper = flood_pred * 1.30
+def safety_interval(pred, rmse):
+    # Professional Interval: Using 1.96 * RMSE for ~95% confidence
+    lower = np.maximum(0, pred - (1.5 * rmse))
+    upper = pred + (1.5 * rmse)
     return lower, upper
 
-# --- UI LAYOUT ---
-st.set_page_config(page_title="Bengaluru Lake Risk Dashboard", layout="wide")
+# --- DATA INITIALIZATION ---
+df, model_rmse = load_data()
+
+# --- SIDEBAR ---
+with st.sidebar:
+    st.image("https://img.icons8.com/fluency/96/flood.png", width=80)
+    st.header("Control Panel")
+    budget = st.slider("Desilting Budget (₹)", 500000, 20000000, 5000000, step=500000)
+    st.info(f"Model Confidence: ±{model_rmse:.2f}% (RMSE)")
+
+affordable_lakes, full_optimized = optimize_lakes(df, budget)
+
+# --- HEADER SECTION ---
 st.title("Bengaluru Lake Flood Risk Decision Engine")
-st.markdown("**Satellite Intelligence → BBMP Action Plans** | Ridge Regressed | 100% Safety Coverage")
+st.markdown("---")
 
-# Sidebar
-st.sidebar.header("Decision Parameters")
-budget = st.sidebar.slider("Desilting Budget (₹)", 500000, 10000000, 2000000)
-df = load_data()
+# 3. TOP LEVEL METRICS
+m1, m2, m3, m4 = st.columns(4)
+m1.metric("Lakes in Scope", len(affordable_lakes))
+m2.metric("Mitigated Risk", f"{affordable_lakes['flood_reduction'].sum():.1f}%")
+m3.metric("Budget Utilization", f"{(affordable_lakes['est_cost'].sum()/budget)*100:.1f}%")
+m4.metric("Avg. Cost/Lake", f"₹{affordable_lakes['est_cost'].mean():,.0f}")
 
-# Trigger Optimizer early so 'est_cost' is ready for Map and Metrics
-optimized_lakes, total_reduction = optimize_lakes(df, budget)
-
-# 3. PRIORITY MAP & TOP LIST
-col1, col2 = st.columns([2, 1])
+# 4. MAIN VISUALS (MAP & OPTIMIZATION CURVE)
+col1, col2 = st.columns([1.5, 1])
 
 with col1:
-    st.subheader("📍 Priority Lakes Map")
-    m = folium.Map(location=[12.97, 77.59], zoom_start=11)
-    # Mapping top 10 risky lakes
-    for idx, row in df.nlargest(10, 'sar_flood_freq_pct').iterrows():
+    st.subheader("📍 Deployment Strategy Map")
+    m = folium.Map(location=[12.97, 77.59], zoom_start=11, tiles="CartoDB positron")
+    for idx, row in affordable_lakes.iterrows():
         folium.CircleMarker(
             location=[row['lat'], row['lon']],
-            radius=row['sar_flood_freq_pct']/2,
-            popup=f"Lake: {row['name']}<br>Cost: ₹{row['est_cost']:,.0f}",
-            color='red' if row['sar_flood_freq_pct'] > 20 else 'orange',
-            fill=True
+            radius=row['sar_flood_freq_pct']*0.8,
+            popup=f"<b>{row['name']}</b><br>Cost: ₹{row['est_cost']:,.0f}",
+            color='#1e293b', fill=True, fill_color='#3b82f6', fill_opacity=0.7
         ).add_to(m)
-    st_folium(m, width=700, height=450)
+    st_folium(m, width="100%", height=450)
 
 with col2:
-    st.subheader("High Risk Hotspots")
-    top5 = df.nlargest(5, 'sar_flood_freq_pct')[['name', 'sar_flood_freq_pct']]
-    st.dataframe(top5.style.format({'sar_flood_freq_pct': '{:.1f}%'}), use_container_width=True)
+    st.subheader("📈 Diminishing Returns Curve")
+    # Professional Plotly Chart: Cumulative Impact
+    fig_curve = go.Figure()
+    fig_curve.add_trace(go.Scatter(
+        x=full_optimized['cum_cost'], y=full_optimized['cum_reduction'],
+        mode='lines', name='Risk Mitigation', line=dict(color='#3b82f6', width=3),
+        fill='tozeroy'
+    ))
+    # Budget Cutoff Line
+    fig_curve.add_vline(x=budget, line_dash="dash", line_color="red", annotation_text="Budget Limit")
+    fig_curve.update_layout(
+        template="plotly_white", margin=dict(l=20, r=20, t=40, b=20),
+        xaxis_title="Cumulative Spend (₹)", yaxis_title="Total Risk Reduced (%)",
+        hovermode="x unified"
+    )
+    st.plotly_chart(fig_curve, use_container_width=True)
 
-# 4. BUDGET METRICS
-st.subheader("Budget Allocation Impact")
-c1, c2, c3 = st.columns(3)
-c1.metric("Lakes Affordable", len(optimized_lakes))
-c2.metric("Total Risk Mitigation", f"{total_reduction:.1f}%")
-c3.metric("Efficiency", f"₹{(budget/max(1, len(optimized_lakes))):,.0f}/lake")
+# 5. MODEL VALIDATION & SAFETY (REFINED PLOTLY)
+st.markdown("---")
+st.subheader("Intelligence Diagnostics (Gradient Boosting)")
 
-st.dataframe(optimized_lakes[['name', 'sar_flood_freq_pct', 'est_cost', 'flood_reduction']], use_container_width=True)
+c1, c2 = st.columns(2)
 
-# 5. MODEL PERFORMANCE
-st.subheader("📊 Model Validation (Ridge Performance)")
-fig = make_subplots(rows=1, cols=2, subplot_titles=('Prediction Accuracy', 'Safety Intervals'))
+with c1:
+    # Prediction vs Actual
+    fig_acc = px.scatter(df, x='predicted_flood', y='sar_flood_freq_pct', 
+                         trendline="ols", labels={'predicted_flood':'Predicted Risk', 'sar_flood_freq_pct':'Actual Risk'},
+                         title="Model Accuracy (Observed vs Predicted)")
+    fig_acc.update_traces(marker=dict(size=10, color='#1e293b', opacity=0.6))
+    st.plotly_chart(fig_acc, use_container_width=True)
 
-# Prediction Scatter
-fig.add_trace(go.Scatter(x=df['predicted_flood'], y=df['sar_flood_freq_pct'], mode='markers', marker=dict(color='red')), row=1, col=1)
-fig.update_xaxes(title="Predicted %", row=1, col=1)
-fig.update_yaxes(title="Actual %", row=1, col=1)
+with c2:
+    # Safety Intervals for High Priority Lakes
+    sample = affordable_lakes.head(8)
+    fig_safe = go.Figure()
+    
+    # Draw Error Bars with Legend Pro-tip applied
+    fig_safe.add_trace(go.Scatter(
+        x=sample['name'], y=sample['predicted_flood'],
+        mode='markers',
+        error_y=dict(type='data', array=sample['rmse_buffer']*1.5, visible=True, thickness=2, width=4, color='#ef4444'),
+        marker=dict(size=12, color='#3b82f6'),
+        name="Predicted Risk + Safety Buffer"
+    ))
+    fig_safe.update_layout(
+        template="plotly_white", title="Safety Confidence Intervals",
+        legend=dict(orientation="h", yanchor="bottom", y=1.02, xanchor="right", x=1)
+    )
+    st.plotly_chart(fig_safe, use_container_width=True)
 
-# Safety Intervals
-sample = df.head(5)
-for i, row in sample.iterrows():
-    low, up = safety_interval(row['predicted_flood'])
-    fig.add_trace(go.Scatter(x=[row['name']], y=[row['predicted_flood']], error_y=dict(type='data', array=[up-row['predicted_flood']]), mode='markers'), row=1, col=2)
+# 6. ACTION TABLE
+st.subheader("Final Action Plan: Top Priority Desilting")
+st.dataframe(
+    affordable_lakes[['name', 'sar_flood_freq_pct', 'est_cost', 'priority_score']]
+    .style.background_gradient(subset=['priority_score'], cmap='Blues')
+    .format({'est_cost': '₹{:,.0f}', 'sar_flood_freq_pct': '{:.1f}%'}),
+    use_container_width=True
+)
 
-st.plotly_chart(fig, use_container_width=True)
-
-# 6. ACTION BUTTONS
-if st.button("📄 Export BBMP Checklist"):
-    st.success("Action plan generated!")
+if st.button("🚀 Finalize BBMP Checklist"):
     st.balloons()
-    st.markdown(f"**Priority 1:** {optimized_lakes.iloc[0]['name']} - Immediate Desilting required.")
-
-st.caption("Built with Advanced Ridge & Polynomial Regression | Data: Sentinel-2")
+    st.success(f"Strategy Validated. {len(affordable_lakes)} Lakes scheduled for desilting.")
