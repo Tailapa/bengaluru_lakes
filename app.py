@@ -42,7 +42,7 @@ st.markdown("""
 
     /* 5. Target the Slider Min/Max numbers (500000 and 20000000) */
     [data-testid="stTickBarMin"], [data-testid="stTickBarMax"] {
-        color: #60a5fa !important; /* Soft Blue */
+        color: #ffffff !important; /* Soft Blue */
         font-weight: bold;
     }
 
