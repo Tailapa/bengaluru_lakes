@@ -123,7 +123,9 @@ with st.sidebar:
     st.header("Control Panel")
     budget = st.slider("Desilting Budget (₹)", 500000, 20000000, 5000000, step=500000)
     st.divider()
-    st.metric("Model Precision (RMSE)", f"±{model_rmse:.2f}%")
+    st.metric(label="Model Precision (RMSE)", 
+              value=f"± {model_rmse:.2f}%",
+              help="Root Mean Square Error: The average difference between the model's predicted flood risk and the actual observed risk.")
     st.write("Top Risk Drivers")
     st.bar_chart(feat_importance.head(5))
 
@@ -145,14 +147,29 @@ total_reduction = affordable_lakes['flood_reduction'].sum()
 mitigation_ratio = (total_reduction / total_starting_risk) * 100 if total_starting_risk > 0 else 0
 
 m1, m2, m3, m4 = st.columns(4)
-m1.metric("Lakes Affordable", len(affordable_lakes))
+m1.metric(
+    label="Lakes Affordable", 
+    value=len(affordable_lakes),
+    help="The number of lakes that can be fully desilted within the current budget allocation based on estimated costs."
+)
+
 m2.metric(
     label="Risk Mitigation Share", 
     value=f"{mitigation_ratio:.1f}%", 
-    help="Percentage of city-wide flood risk mitigated by the selected budget"
+    help="Percentage of city-wide flood risk mitigated by the selected budget. Calculated as (Total Risk Reduced / Total Possible Risk)."
 )
-m3.metric("Budget Efficiency", f"{(affordable_lakes['est_cost'].sum()/budget)*100:.1f}%")
-m4.metric("Average Lake Cost", f"₹ {affordable_lakes['est_cost'].mean():,.0f}")
+
+m3.metric(
+    label="Budget Efficiency", 
+    value=f"{(affordable_lakes['est_cost'].sum()/budget)*100:.1f}%",
+    help="The percentage of the total allocated budget that can be successfully utilized by our targeted priority lakes."
+)
+
+m4.metric(
+    label="Average Lake Cost", 
+    value=f"INR {affordable_lakes['est_cost'].mean():,.0f}",
+    help="The mean estimated cost for reviving a single lake within our targeted list of lakes."
+)
 
 # 4. MAP & CURVE
 col1, col2 = st.columns([1.5, 1])
@@ -160,15 +177,36 @@ col1, col2 = st.columns([1.5, 1])
 with col1:
     st.subheader("Deployment Strategy Map")
     m = folium.Map(location=[12.97, 77.59], zoom_start=11, tiles="CartoDB positron")
+    
     for _, row in affordable_lakes.iterrows():
-        # Dynamic color logic: Red for high risk, Blue for manageable
+        # Dynamic color logic
         marker_color = "#ef4444" if row['sar_flood_freq_pct'] > 20 else "#3b82f6"
+        
+        # Professional HTML Popup content to justify the marking
+        popup_html = f"""
+            <div style="font-family: sans-serif; width: 200px;">
+                <h4 style="margin-bottom: 5px;">{row['name']}</h4>
+                <hr style="margin: 5px 0;">
+                <table style="width: 100%; font-size: 12px;">
+                    <tr><td><b>Risk Score:</b></td><td style="text-align:right;">{row['sar_flood_freq_pct']:.1f}%</td></tr>
+                    <tr><td><b>Priority Rank:</b></td><td style="text-align:right;">{row['priority_score']:.2f}</td></tr>
+                    <tr><td><b>Urban Stress:</b></td><td style="text-align:right;">{row['urban_stress']:.2f}</td></tr>
+                    <tr><td><b>Impervious:</b></td><td style="text-align:right;">{row['impervious_fraction']:.1f}%</td></tr>
+                    <tr style="color: #3b82f6;"><td><b>Est. Cost:</b></td><td style="text-align:right;">₹{row['est_cost']:,.0f}</td></tr>
+                </table>
+            </div>
+        """
+        
         folium.CircleMarker(
             location=[row['lat'], row['lon']],
             radius=row['sar_flood_freq_pct'] * 0.7,
-            popup=f"Lake: {row['name']}<br>Cost: ₹ {row['est_cost']:,.0f}",
-            color=marker_color, fill=True, fill_opacity=0.6
+            popup=folium.Popup(popup_html, max_width=250),
+            color=marker_color, 
+            fill=True, 
+            fill_opacity=0.6,
+            weight=2
         ).add_to(m)
+        
     st_folium(m, width="stretch", height=450)
 
 with col2:
@@ -211,7 +249,7 @@ with c2:
     st.plotly_chart(fig_safe, width="stretch")
 
 # 6. ACTION TABLE
-st.subheader("Priority Desilting Checklist")
+st.subheader("Priority Lakes (low hanging fruits)")
 
 # Process table data
 final_display = affordable_lakes[['name', 'sar_flood_freq_pct', 'est_cost', 'priority_score']].drop_duplicates(subset=['name']).reset_index(drop=True)
