@@ -151,7 +151,7 @@ with st.sidebar:
     # st.write("Top Risk Factors")
     # st.bar_chart(feat_importance.head(5))
 
-    st.markdown("<p style='color: #ffffff; font-size: 14px; font-weight: bold; margin-bottom: 0px;'>Top Risk Drivers</p>", unsafe_allow_html=True)
+    st.markdown("<p style='color: #ffffff; font-size: 14px; font-weight: bold; margin-bottom: 0px;'>Top Risk Factors</p>", unsafe_allow_html=True)
     
     # 1. Define the Mapping Dictionary
     label_map = {
