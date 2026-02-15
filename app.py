@@ -116,7 +116,7 @@ def load_data():
 
 def optimize_lakes(df, budget):
     # ROI: Percentage risk reduced per Rupee spent
-    df['priority_score'] = (df['sar_flood_freq_pct'] / df['est_cost'])*1000
+    df['priority_score'] = (df['sar_flood_freq_pct'] / df['est_cost'])*10000
     df['flood_reduction'] = df['sar_flood_freq_pct'] * 0.65 
     
     optimized = df.sort_values('priority_score', ascending=False).copy()
