@@ -39,6 +39,29 @@ st.markdown("""
     .stSlider [data-baseweb="slider"] > div > div {
         background-color: #3b82f6 !important;
     }
+
+    /* 5. Target the Slider Min/Max numbers (500000 and 20000000) */
+    [data-testid="stTickBarMin"], [data-testid="stTickBarMax"] {
+        color: #60a5fa !important; /* Soft Blue */
+        font-weight: bold;
+    }
+
+    /* 6. Target the Metric Label (Model Precision (RMSE)) */
+    [data-testid="stMetricLabel"] {
+        color: #94a3b8 !important; /* Muted Slate Gray */
+        font-size: 1rem !important;
+    }
+
+    /* 7. Target the Metric Value (±3.77%) */
+    [data-testid="stMetricValue"] {
+        color: #10b981 !important; /* Success Green */
+        font-weight: 800 !important;
+    }
+
+    /* 8. Target the Sidebar Info Box text */
+    [data-testid="stSidebar"] .stAlert p {
+        color: #3b82f6 !important;
+    }    
     </style>
     """, unsafe_allow_html=True)
 
