@@ -6,3 +6,4 @@ streamlit-folium
 scikit-learn
 plotly
 statsmodels
+jinja2
