@@ -44,6 +44,18 @@ st.markdown("""
         color: #10b981 !important;
         font-weight: 800 !important;
     }
+            
+    /* Target the button containing the help icon inside a metric */
+    [data-testid="stMetric"] [data-testid="stMetricHelp"] button svg {
+        fill: #ef4444 !important; /* Change to your desired color */
+        color: #ef4444 !important;
+    }
+
+    /* Target the path specifically if the SVG fill isn't responding */
+    [data-testid="stMetric"] [data-testid="stMetricHelp"] button svg path {
+        fill: #ef4444 !important;
+    }
+    
     </style>
     """, unsafe_allow_html=True)
 
@@ -126,13 +138,66 @@ with st.sidebar:
     st.metric(label="Model Precision (RMSE)", 
               value=f"± {model_rmse:.2f}%",
               help="Root Mean Square Error: The average difference between the model's predicted flood risk and the actual observed risk.")
-    st.write("Top Risk Drivers")
-    st.bar_chart(feat_importance.head(5))
+    
+    # st.write("Top Risk Drivers")
+    # st.bar_chart(feat_importance.head(5))
+
+    st.markdown("<p style='color: #ffffff; font-size: 14px; font-weight: bold; margin-bottom: 0px;'>Top Risk Drivers</p>", unsafe_allow_html=True)
+    
+    # 1. Define the Mapping Dictionary
+    label_map = {
+        "peak_30min_intensity_mm": "Rainfall Intensity",
+        "potential_ha": "Surface Area",
+        "sar_flood_freq_pct": "Flood Risk",
+        "urban_stress": "Urban Pressure",
+        "impervious_fraction": "Concrete Cover",
+        "priority_score": "Priority Rank",
+        "biological_clogging": "Weed Encroachment"
+    }
+
+    # 2. Prepare and Rename Data
+    top_feats = feat_importance.head(5).reset_index()
+    top_feats.columns = ['Feature', 'Importance']
+    
+    # Apply the human-readable names
+    top_feats['Feature'] = top_feats['Feature'].replace(label_map)
+
+    # 3. Create the Clean Plotly Chart
+    fig = px.bar(
+        top_feats, 
+        x='Importance', 
+        y='Feature', 
+        orientation='h',
+        template='plotly_dark'
+    )
+
+    fig.update_traces(
+        marker_color='#94a3b8', 
+        marker_line_color='rgba(0,0,0,0)',
+        hovertemplate='%{x:.2f}<extra></extra>'
+    )
+
+    fig.update_layout(
+        paper_bgcolor='rgba(0,0,0,0)', 
+        plot_bgcolor='rgba(0,0,0,0)',  
+        margin=dict(l=0, r=10, t=10, b=0), 
+        height=220, # Slightly taller for longer labels
+        xaxis=dict(showgrid=False, showticklabels=False, title=''), 
+        yaxis=dict(
+            showgrid=False, 
+            title='', 
+            tickfont=dict(color="#ffffff", size=11),
+            autorange="reversed" # Keeps the highest driver at the top
+        ), 
+        showlegend=False
+    )
+
+    st.plotly_chart(fig, use_container_width=True, config={'displayModeBar': False})
 
 affordable_lakes, full_optimized = optimize_lakes(df, budget)
 
 # --- UI LAYOUT ---
-st.title("Bengaluru Lakes Flood Mitigation: Decision Support Dashboard")
+st.title("Bengaluru Lake Restoration: Decision Support Dashboard")
 
 # 3. TOP LEVEL METRICS
 
@@ -185,8 +250,8 @@ with col1:
     legend_html = '''
      <div style="
      position: fixed; 
-     bottom: 50px; left: 50px; width: 250px; height: 90px; 
-     background-color: white; border:2px solid grey; z-index:9999; font-size:14px;
+     bottom: 20px; left: 20px; width: 170px; height: 100px; 
+     background-color: white; border:2px solid grey; z-index:9999; font-size:12px;
      border-radius: 6px; padding: 10px;
      ">
      <b>Map Legend</b><br>
@@ -229,7 +294,7 @@ with col1:
         ).add_to(m)
         
     st_folium(m, width=700, height=450)
-    
+
 with col2:
     st.subheader("Diminishing Returns Analysis")
     fig_curve = go.Figure()
