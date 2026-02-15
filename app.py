@@ -224,7 +224,7 @@ m1, m2, m3, m4 = st.columns(4)
 m1.metric(
     label="Lakes Affordable", 
     value=len(affordable_lakes),
-    help="The number of lakes that can be fully desilted within the current budget allocation based on estimated costs."
+    help="The number of lakes that can be fully resotred within the current budget allocation based on estimated costs."
 )
 
 m2.metric(
