@@ -31,6 +31,12 @@ def load_data():
     df = pd.read_csv('data/dashboard_data.csv')
     df = df.loc[:, ~df.columns.str.contains('Unnamed')]
     
+    
+    df_cords = pd.read_csv('data/lakes_dashboard.csv')
+    cords = df_cords[['name', 'lat', 'lon']]
+    df = df.merge(cords, how='left', on='name')
+
+    
     # Feature Engineering
     rain_feats = ['max_3day_rain_mm', 'peak_30min_intensity_mm'] 
     urban_feats = ['impervious_fraction', 'urban_stress']
@@ -107,7 +113,7 @@ m4.metric("Avg. Cost/Lake", f"₹{affordable_lakes['est_cost'].mean():,.0f}")
 col1, col2 = st.columns([1.5, 1])
 
 with col1:
-    st.subheader("📍 Deployment Strategy Map")
+    st.subheader("Deployment Strategy Map")
     m = folium.Map(location=[12.97, 77.59], zoom_start=11, tiles="CartoDB positron")
     for idx, row in affordable_lakes.iterrows():
         folium.CircleMarker(
@@ -119,7 +125,7 @@ with col1:
     st_folium(m, width="100%", height=450)
 
 with col2:
-    st.subheader("📈 Diminishing Returns Curve")
+    st.subheader("Diminishing Returns Curve")
     # Professional Plotly Chart: Cumulative Impact
     fig_curve = go.Figure()
     fig_curve.add_trace(go.Scatter(
