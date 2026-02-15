@@ -121,23 +121,38 @@ except Exception as e:
 # --- SIDEBAR ---
 with st.sidebar:
     st.header("Control Panel")
-    budget = st.slider("Desilting Budget (INR)", 500000, 20000000, 5000000, step=500000)
+    budget = st.slider("Desilting Budget (₹)", 500000, 20000000, 5000000, step=500000)
     st.divider()
-    st.metric("Model Precision (RMSE)", f"plus/minus {model_rmse:.2f}%")
+    st.metric("Model Precision (RMSE)", f"±{model_rmse:.2f}%")
     st.write("Top Risk Drivers")
     st.bar_chart(feat_importance.head(5))
 
 affordable_lakes, full_optimized = optimize_lakes(df, budget)
 
 # --- UI LAYOUT ---
-st.title("Bengaluru Lake Flood Risk Engine")
+st.title("Bengaluru Lakes Flood Mitigation: Decision Support Dashboard")
 
 # 3. TOP LEVEL METRICS
+
+# Calculate Total Risk across the entire dataset
+total_starting_risk = df['sar_flood_freq_pct'].sum()
+
+# Calculate Total Risk Reduced from selected lakes
+total_reduction = affordable_lakes['flood_reduction'].sum()
+
+# Calculate the Mitigation Percentage
+# This represents: (Risk Removed / Total Possible Risk)
+mitigation_ratio = (total_reduction / total_starting_risk) * 100 if total_starting_risk > 0 else 0
+
 m1, m2, m3, m4 = st.columns(4)
 m1.metric("Lakes Affordable", len(affordable_lakes))
-m2.metric("Total Mitigation", f"{affordable_lakes['flood_reduction'].sum():.1f}%")
+m2.metric(
+    label="Risk Mitigation Share", 
+    value=f"{mitigation_ratio:.1f}%", 
+    help="Percentage of city-wide flood risk mitigated by the selected budget"
+)
 m3.metric("Budget Efficiency", f"{(affordable_lakes['est_cost'].sum()/budget)*100:.1f}%")
-m4.metric("Average Lake Cost", f"INR {affordable_lakes['est_cost'].mean():,.0f}")
+m4.metric("Average Lake Cost", f"₹ {affordable_lakes['est_cost'].mean():,.0f}")
 
 # 4. MAP & CURVE
 col1, col2 = st.columns([1.5, 1])
@@ -151,7 +166,7 @@ with col1:
         folium.CircleMarker(
             location=[row['lat'], row['lon']],
             radius=row['sar_flood_freq_pct'] * 0.7,
-            popup=f"Lake: {row['name']}<br>Cost: INR {row['est_cost']:,.0f}",
+            popup=f"Lake: {row['name']}<br>Cost: ₹ {row['est_cost']:,.0f}",
             color=marker_color, fill=True, fill_opacity=0.6
         ).add_to(m)
     st_folium(m, width="stretch", height=450)
@@ -166,7 +181,7 @@ with col2:
     fig_curve.add_vline(x=budget, line_dash="dash", line_color="#ef4444")
     fig_curve.update_layout(
         template="plotly_white", 
-        xaxis_title="Cumulative Spend (INR)", 
+        xaxis_title="Cumulative Spend (₹)", 
         yaxis_title="Total Mitigation (%)",
         margin=dict(t=20, l=10, r=10, b=10)
     )
@@ -211,7 +226,7 @@ try:
     styled_df = final_display.style.background_gradient(
         subset=['Priority Rank'], cmap='Blues'
     ).format({
-        'Estimated Cost': 'INR {:,.0f}', 
+        'Estimated Cost': '₹ {:,.0f}', 
         'Flood Risk Percent': '{:.1f}%',
         'Priority Rank': '{:.2f}'
     })
