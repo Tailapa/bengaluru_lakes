@@ -121,7 +121,7 @@ except Exception as e:
 # --- SIDEBAR ---
 with st.sidebar:
     st.header("Control Panel")
-    budget = st.slider("Desilting Budget (₹)", 500000, 20000000, 5000000, step=500000)
+    budget = st.slider("Revival Budget (₹)", 500000, 20000000, 5000000, step=500000)
     st.divider()
     st.metric(label="Model Precision (RMSE)", 
               value=f"± {model_rmse:.2f}%",
@@ -167,22 +167,45 @@ m3.metric(
 
 m4.metric(
     label="Average Lake Cost", 
-    value=f"INR {affordable_lakes['est_cost'].mean():,.0f}",
+    value=f"₹ {affordable_lakes['est_cost'].mean():,.0f}",
     help="The mean estimated cost for reviving a single lake within our targeted list of lakes."
 )
 
 # 4. MAP & CURVE
 col1, col2 = st.columns([1.5, 1])
 
+import folium
+from streamlit_folium import st_folium
+
 with col1:
     st.subheader("Deployment Strategy Map")
     m = folium.Map(location=[12.97, 77.59], zoom_start=11, tiles="CartoDB positron")
     
+    # 1. Add Legend HTML/CSS
+    legend_html = '''
+     <div style="
+     position: fixed; 
+     bottom: 50px; left: 50px; width: 250px; height: 90px; 
+     background-color: white; border:2px solid grey; z-index:9999; font-size:14px;
+     border-radius: 6px; padding: 10px;
+     ">
+     <b>Map Legend</b><br>
+     <i class="fa fa-circle" style="color:#ef4444"></i>&nbsp; High Flood Risk (>20%)<br>
+     <i class="fa fa-circle" style="color:#22c55e"></i>&nbsp; High Priority Rank (>4)<br>
+     <i class="fa fa-circle" style="color:#3b82f6"></i>&nbsp; Standard Priority
+     </div>
+     '''
+    m.get_root().html.add_child(folium.Element(legend_html))
+
     for _, row in affordable_lakes.iterrows():
-        # Dynamic color logic
-        marker_color = "#ef4444" if row['sar_flood_freq_pct'] > 20 else "#3b82f6"
+        # 2. Dynamic color logic based on your new rules
+        if row['sar_flood_freq_pct'] > 20:
+            marker_color = "#ef4444"  # Red
+        elif row['priority_score'] > 4:
+            marker_color = "#22c55e"  # Green
+        else:
+            marker_color = "#3b82f6"  # Default Blue
         
-        # Professional HTML Popup content to justify the marking
         popup_html = f"""
             <div style="font-family: sans-serif; width: 200px;">
                 <h4 style="margin-bottom: 5px;">{row['name']}</h4>
@@ -190,8 +213,6 @@ with col1:
                 <table style="width: 100%; font-size: 12px;">
                     <tr><td><b>Risk Score:</b></td><td style="text-align:right;">{row['sar_flood_freq_pct']:.1f}%</td></tr>
                     <tr><td><b>Priority Rank:</b></td><td style="text-align:right;">{row['priority_score']:.2f}</td></tr>
-                    <tr><td><b>Urban Stress:</b></td><td style="text-align:right;">{row['urban_stress']:.2f}</td></tr>
-                    <tr><td><b>Impervious:</b></td><td style="text-align:right;">{row['impervious_fraction']:.1f}%</td></tr>
                     <tr style="color: #3b82f6;"><td><b>Est. Cost:</b></td><td style="text-align:right;">₹{row['est_cost']:,.0f}</td></tr>
                 </table>
             </div>
@@ -207,8 +228,8 @@ with col1:
             weight=2
         ).add_to(m)
         
-    st_folium(m, width="stretch", height=450)
-
+    st_folium(m, width=700, height=450)
+    
 with col2:
     st.subheader("Diminishing Returns Analysis")
     fig_curve = go.Figure()
