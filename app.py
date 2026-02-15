@@ -32,7 +32,7 @@ def load_data():
     
     # Merge Coordinates
     df_cords = pd.read_csv('data/lakes_dashboard.csv')
-    cords = df_cords[['name', 'lat', 'lon']].drop_duplicates('name')
+    cords = df_cords[['name', 'lat', 'lon']].drop_duplicates(subset=['name'])
     df = df.merge(cords, how='left', on='name')
     
     # Fill missing coords to prevent Folium crash
@@ -163,6 +163,7 @@ st.subheader("Priority Desilting Checklist")
 # Ensure matplotlib is installed for the gradient
 try:
     styled_df = affordable_lakes[['name', 'sar_flood_freq_pct', 'est_cost', 'priority_score']].style.background_gradient(subset=['priority_score'], cmap='Blues').format({'est_cost': '₹{:,.0f}', 'sar_flood_freq_pct': '{:.1f}%'})
+    styled_df = styled_df.drop_duplicates('name')
     st.dataframe(styled_df, width="stretch")
 except:
     st.dataframe(affordable_lakes[['name', 'sar_flood_freq_pct', 'est_cost']], width="stretch")
