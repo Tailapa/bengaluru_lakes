@@ -259,7 +259,7 @@
                             <div class="ml-10 space-y-3 border-l-2 border-blue-600 pl-6">
                                 <ul class="list-decimal ml-6 space-y-3 mb-5">
                                     <li>We also need to quantify the <strong>upstream catchment area</strong> that drains into a lake to accurately model the risk. Hence, we use <strong>MERIT Hydro dataset</strong> (Multi Error Removed Improved Terrain) which has a resolution of <strong>~90 meters</strong> at equator.</li>
-                                    <li>We define <strong>upstream accumulation area</strong> as the <strong>total surface area in $km^2$</strong> that drains into a specific 90-meter pixel (<strong>flow_accumulation</strong>).</li>
+                                    <li>We define <strong>upstream accumulation area</strong> as the <strong>total surface area in km^2</strong> that drains into a specific 90-meter pixel (<strong>flow_accumulation</strong>).</li>
                                     <li>But since these <strong>accumulation values</strong> can have a large range, we make use of <strong>log-10</strong>, thus mapping both <strong>major drains</strong> and <strong>smaller gullies</strong>.</li>
                                     <li>We also identify <strong>flow direction</strong> by assigning a code (1,2,4,8,16,32,64,128), each representing a <strong>compass direction (flow_direction)</strong>.</li>
                                     <li>This data was calculated for each lake by using their <strong>centroids</strong> and drawing a <strong>200-meter buffer</strong> around it.</li>
